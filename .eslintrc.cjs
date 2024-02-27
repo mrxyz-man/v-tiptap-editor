@@ -1,11 +1,17 @@
 /* eslint-env node */
-require("@rushstack/eslint-patch/modern-module-resolution");
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
-  "root": true,
-  "extends": [
-    "plugin:vue/essential",
-    "eslint:recommended",
-    "@vue/eslint-config-typescript/recommended"
-  ]
-}
+  root: true,
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/strongly-recommended',
+    'plugin:vue-pug/strongly-recommended',
+    '@vue/eslint-config-typescript/recommended',
+    'airbnb-base',
+  ],
+  rules: {
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+  },
+};
