@@ -22,7 +22,7 @@ export default Vue.extend({
           style: 'width: inherit; outline: none; height: 100%;',
         },
       },
-      content: this.lazyValue,
+      content: this.value,
       extensions: [
         StarterKit,
       ],
@@ -33,7 +33,7 @@ export default Vue.extend({
         this.onBlur(e);
       },
       onUpdate: ({ editor }) => {
-        this.lazyValue = editor.getText() ? editor.getHTML() : '';
+        this.internalValue = editor.getText() ? editor.getHTML() : '';
       },
     });
   },
