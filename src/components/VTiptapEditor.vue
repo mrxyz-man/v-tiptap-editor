@@ -3,16 +3,35 @@ import Vue from 'vue';
 import VTextField from 'vuetify/lib/components/VTextField/VTextField';
 import VInput from 'vuetify/lib/components/VInput/VInput';
 import { attachedRoot } from 'vuetify/lib/util/dom';
+
 import { Editor, EditorContent } from '@tiptap/vue-2';
 import StarterKit from '@tiptap/starter-kit';
+
+import VTiptapMenu from './VTiptapMenu.vue';
+import VTiptapToolbar from './VTiptapToolbar.vue';
 import '@/assets/settings/index.scss';
 
+/*
+TODO LIST:
+[ ] - Usage typescript syntax;
+[ ] - Add special editor props support;
+[ ] - Optimize the new logic;
+[ ] - Add functional toolbar;
+[ ] - Add functional tooltip by selection;
+[ ] - Test all text-field functionality with new shell;
+[ ] - Add support save default styles by props (enabled/disabled);
+*/
 export default Vue.extend({
   name: 'v-tiptap-editor',
   mixins: [VTextField],
   data() {
     return {
       editor: null,
+
+      isSelection: false,
+      selectionPos: {
+        head: {},
+      },
     };
   },
   created() {
@@ -23,6 +42,7 @@ export default Vue.extend({
         },
       },
       content: this.value,
+      // injectCSS: false,
       extensions: [
         StarterKit,
       ],
@@ -34,6 +54,10 @@ export default Vue.extend({
       },
       onUpdate: ({ editor }) => {
         this.internalValue = editor.getText() ? editor.getHTML() : '';
+      },
+      onSelectionUpdate: ({ editor, transaction }) => {
+        this.isSelection = !transaction.selection.empty;
+        this.selectionPos.head = editor.view.coordsAtPos(transaction.selection.$head.pos);
       },
     });
   },
@@ -59,6 +83,40 @@ export default Vue.extend({
     },
   },
   methods: {
+    genDefaultSlot() {
+      return [
+        this.genBaloon(),
+        this.genFieldset(),
+        this.genTextFieldSlot(),
+        this.genClearIcon(),
+        this.genIconSlot(),
+        this.genProgress(),
+      ];
+    },
+    genFunctionalToolbar() {
+      return this.$createElement(VTiptapToolbar, {
+        props: {
+          editor: this.editor,
+        },
+      });
+    },
+    genBaloon() {
+      const elmTop = this.$el ? this.$el.getBoundingClientRect().top : 0;
+      return this.$createElement(VTiptapMenu, {
+        props: {
+          top: true,
+          eager: true,
+          nudgeTop: 8,
+          attach: true,
+          absolute: true,
+          closeOnClick: false,
+          closeOnContentClick: false,
+          positionY: (this.selectionPos.head.top - elmTop) || 0,
+          positionX: this.selectionPos.head.left,
+          value: this.isSelection && this.isFocused,
+        },
+      }, [this.genFunctionalToolbar()]);
+    },
     genInput() {
       const input = VTextField.options.methods.genInput.call(this);
       return this.$createElement(EditorContent, {
@@ -72,7 +130,7 @@ export default Vue.extend({
     },
     onBlur(e) {
       this.isFocused = false;
-      this.editor.commands.blur();
+      this.$refs.input.$el.blur();
 
       if (e) this.$nextTick(() => this.$emit('blur', e));
     },
@@ -82,12 +140,12 @@ export default Vue.extend({
       const root = attachedRoot(this.$el);
       if (!root) return;
 
-      if (!root.activeElement.closest(`.${this.$refs.input.$el.className}`)) {
-        this.editor.commands.focus('end');
+      if (!root.activeElement.closest(`#${this.$refs.input.$el.id}`)) {
+        this.editor.commands.focus();
       }
 
-      if (!this.editor.getText()) {
-        this.editor.commands.focus('start');
+      if (!this.hasMouseDown && !this.hasFocused) {
+        this.editor.commands.focus('end');
       }
 
       if (!this.isFocused) {
@@ -103,12 +161,15 @@ export default Vue.extend({
     },
     onMouseDown(e) {
       // Prevent input from being blurred
-      if (!e.target.closest(`.${this.$refs.input.$el.className}`)) {
+      if (!e.target.closest(`#${this.$refs.input.$el.id}`)) {
         e.preventDefault();
         e.stopPropagation();
       }
 
       VInput.options.methods.onMouseDown.call(this, e);
+    },
+    onMouseUp(e) {
+      VInput.options.methods.onMouseUp.call(this, e);
     },
     clearableCallback() {
       if (this.$refs.input && this.editor.commands.focus()) {

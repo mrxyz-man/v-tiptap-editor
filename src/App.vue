@@ -20,9 +20,30 @@
             v-tiptap-editor(
               label="Default"
             )
+            v-tiptap-editor(
+              label="Default"
+            )
+            v-tiptap-editor(
+              label="Default"
+            )
+            v-tiptap-editor(
+              label="Default"
+            )
+            v-tiptap-editor(
+              label="Default"
+            )
+            v-tiptap-editor(
+              label="Default"
+            )
+            v-tiptap-editor(
+              label="Default"
+            )
+            v-tiptap-editor(
+              label="Default"
+            )
 </template>
 
-<script lang="ts">
+<script>
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
 export default {
@@ -31,7 +52,30 @@ export default {
   },
   data() {
     return {
-      tiptapVal1: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+      tiptapVal1: `<p>
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+        I’m running Tiptap with Vue.js. 🎉
+      </p>`,
     };
   },
 };
