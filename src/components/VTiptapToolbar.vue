@@ -1,7 +1,8 @@
 <script>
-import VBtnToggle from 'vuetify/lib/components/VBtnToggle/VBtnToggle';
-import VIcon from 'vuetify/lib/components/VIcon/VIcon';
-import VBtn from 'vuetify/lib/components/VBtn/VBtn';
+import VToolbar from 'vuetify/lib/components/VToolbar/VToolbar';
+
+import { genFormatings } from '../extensions/formatings';
+import { genHeadings } from '../extensions/headings';
 
 export default {
   name: 'v-tiptap-toolbar',
@@ -12,60 +13,39 @@ export default {
     },
   },
   methods: {
+    genToolbarSections() {
+      const { editor, $createElement } = this;
+
+      const formatings = genFormatings({ editor, $createElement });
+      const headings = genHeadings({ editor, $createElement });
+
+      return [
+        formatings,
+        headings,
+      ];
+    },
     genContent() {
-      return this.$createElement(VBtnToggle, {
+      return this.$createElement(VToolbar, {
         props: {
-          dark: true,
+          flat: true,
           dense: true,
-          multiple: true,
-          value: [
-            ...this.editor.isActive('bold') ? ['bold'] : [],
-            ...this.editor.isActive('italic') ? ['italic'] : [],
-            ...this.editor.isActive('strike') ? ['strike'] : [],
-          ],
+          rounded: true,
+          height: 'auto',
+          backgroundColor: 'transparent',
         },
-      }, [
-        this.$createElement(VBtn, {
-          props: {
-            value: 'bold',
-          },
-          on: {
-            click: () => {
-              this.editor.commands.toggleBold();
-            },
-          },
-        }, [
-          this.$createElement(VIcon, {}, ['mdi-format-bold']),
-        ]),
-        this.$createElement(VBtn, {
-          props: {
-            value: 'italic',
-          },
-          on: {
-            click: () => {
-              this.editor.commands.toggleItalic();
-            },
-          },
-        }, [
-          this.$createElement(VIcon, {}, ['mdi-format-italic']),
-        ]),
-        this.$createElement(VBtn, {
-          props: {
-            value: 'strike',
-          },
-          on: {
-            click: () => {
-              this.editor.commands.toggleStrike();
-            },
-          },
-        }, [
-          this.$createElement(VIcon, {}, ['mdi-format-strikethrough-variant']),
-        ]),
-      ]);
+      }, [...this.genToolbarSections()]);
     },
   },
   render(h) {
-    return h('div', {}, [this.genContent()]);
+    return h('div', {
+      staticClass: 'v-tiptap-toolbar',
+      on: {
+        mousedown: (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        },
+      },
+    }, [this.genContent()]);
   },
 };
 </script>

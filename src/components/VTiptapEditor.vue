@@ -24,6 +24,12 @@ TODO LIST:
 export default Vue.extend({
   name: 'v-tiptap-editor',
   mixins: [VTextField],
+  props: {
+    balloon: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       editor: null,
@@ -64,7 +70,7 @@ export default Vue.extend({
   computed: {
     classes() {
       return {
-        'v-tiptap-editor': true,
+        'v-tiptap-field': true,
         ...VTextField.options.computed.classes.call(this),
       };
     },
@@ -85,7 +91,7 @@ export default Vue.extend({
   methods: {
     genDefaultSlot() {
       return [
-        this.genBaloon(),
+        this.balloon ? this.genBaloon() : [],
         this.genFieldset(),
         this.genTextFieldSlot(),
         this.genClearIcon(),
@@ -101,7 +107,8 @@ export default Vue.extend({
       });
     },
     genBaloon() {
-      const elmTop = this.$el ? this.$el.getBoundingClientRect().top : 0;
+      const elmTop = this.$refs['input-slot'] ? this.$refs['input-slot'].getBoundingClientRect().top : 0;
+
       return this.$createElement(VTiptapMenu, {
         props: {
           top: true,
@@ -178,6 +185,17 @@ export default Vue.extend({
         });
       }
     },
+  },
+  render(h) {
+    return h('div', {
+      staticClass: 'v-tiptap-editor',
+    }, [
+      this.genFunctionalToolbar(),
+      this.$createElement('div', this.setTextColor(this.validationState, {
+        staticClass: 'v-input',
+        class: this.classes,
+      }), this.genContent()),
+    ]);
   },
 });
 </script>
