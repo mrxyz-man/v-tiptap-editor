@@ -5,11 +5,29 @@ import VInput from 'vuetify/lib/components/VInput/VInput';
 import { attachedRoot } from 'vuetify/lib/util/dom';
 
 import { Editor, EditorContent } from '@tiptap/vue-2';
-import StarterKit from '@tiptap/starter-kit';
+import {
+  Text,
+  Document,
+  Paragraph,
+  Highlight,
+} from '@/extensions';
+import { groupExtensions } from '@/utils';
 
-import VTiptapMenu from './VTiptapMenu.vue';
 import VTiptapToolbar from './VTiptapToolbar.vue';
+import VTiptapMenu from './VTiptapMenu.vue';
 import '@/assets/settings/index.scss';
+
+const REQUIRED_EXTENSIONS = [
+  Text,
+  Document,
+  Paragraph,
+  Highlight.configure({
+    multicolor: true,
+    HTMLAttributes: {
+      class: 'selection',
+    },
+  }),
+];
 
 /*
 TODO LIST:
@@ -25,33 +43,53 @@ export default Vue.extend({
   name: 'v-tiptap-editor',
   mixins: [VTextField],
   props: {
-    balloon: {
-      type: Boolean,
-      default: true,
+    extensions: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {
     return {
       editor: null,
-
-      isSelection: false,
-      selectionPos: {
-        head: {},
-      },
+      balloon: null,
+      allExtensions: [
+        ...this.extensions,
+        ...REQUIRED_EXTENSIONS,
+      ],
     };
   },
   created() {
+    this.balloon = {
+      id: null,
+      content: null,
+      props: {
+        positionX: null,
+        positionY: null,
+        value: false,
+      },
+      set({ id, props, content }) {
+        this.id = id;
+        this.props = { ...this.props, ...props };
+        this.content = content;
+      },
+      reset() {
+        this.props = {
+          positionX: null,
+          positionY: null,
+          value: false,
+        };
+        this.content = null;
+      },
+    };
+
     this.editor = new Editor({
       editorProps: {
         attributes: {
           style: 'width: inherit; outline: none; height: 100%;',
         },
       },
+      extensions: this.allExtensions,
       content: this.value,
-      // injectCSS: false,
-      extensions: [
-        StarterKit,
-      ],
       onFocus: ({ event: e }) => {
         this.onFocus(e);
       },
@@ -62,8 +100,17 @@ export default Vue.extend({
         this.internalValue = editor.getText() ? editor.getHTML() : '';
       },
       onSelectionUpdate: ({ editor, transaction }) => {
-        this.isSelection = !transaction.selection.empty;
-        this.selectionPos.head = editor.view.coordsAtPos(transaction.selection.$head.pos);
+        const headPosition = editor.view.coordsAtPos(transaction.selection.$head.pos);
+
+        this.balloon.set({
+          id: '1',
+          props: {
+            positionY: headPosition.top,
+            positionX: headPosition.left,
+            value: !transaction.selection.empty,
+          },
+          content: this.genFunctionalToolbar(),
+        });
       },
     });
   },
@@ -91,7 +138,7 @@ export default Vue.extend({
   methods: {
     genDefaultSlot() {
       return [
-        this.balloon ? this.genBaloon() : [],
+        this.genBalloon(),
         this.genFieldset(),
         this.genTextFieldSlot(),
         this.genClearIcon(),
@@ -99,30 +146,63 @@ export default Vue.extend({
         this.genProgress(),
       ];
     },
-    genFunctionalToolbar() {
-      return this.$createElement(VTiptapToolbar, {
-        props: {
-          editor: this.editor,
-        },
-      });
-    },
-    genBaloon() {
-      const elmTop = this.$refs['input-slot'] ? this.$refs['input-slot'].getBoundingClientRect().top : 0;
+    genBalloon() {
+      const { $createElement, balloon } = this;
 
-      return this.$createElement(VTiptapMenu, {
+      return $createElement(VTiptapMenu, {
+        ref: 'balloon',
+        key: balloon.id,
         props: {
           top: true,
           eager: true,
           nudgeTop: 8,
-          attach: true,
-          absolute: true,
+          attach: this.$el,
           closeOnClick: false,
           closeOnContentClick: false,
-          positionY: (this.selectionPos.head.top - elmTop) || 0,
-          positionX: this.selectionPos.head.left,
-          value: this.isSelection && this.isFocused,
+          contentClass: 'v-tiptap-menu',
+          ...balloon.props,
         },
-      }, [this.genFunctionalToolbar()]);
+      }, [balloon.content]);
+    },
+    genToolbar(options) {
+      return this.$createElement(VTiptapToolbar, {
+        ref: 'toolbar',
+        on: {
+          focus: () => {
+            this.isFocused = true;
+          },
+          blur: (e) => {
+            if (!this.$refs.input.$el.contains(e.target)) {
+              this.onBlur(e);
+            }
+          },
+        },
+        ...options,
+      });
+    },
+    genFunctionalToolbar() {
+      const {
+        editor,
+        balloon,
+        genToolbar,
+        allExtensions,
+        $createElement,
+      } = this;
+
+      const extensions = allExtensions;
+
+      return genToolbar({
+        props: {
+          editor,
+          content: groupExtensions({
+            editor,
+            balloon,
+            extensions,
+            genToolbar,
+            $createElement,
+          }),
+        },
+      });
     },
     genInput() {
       const input = VTextField.options.methods.genInput.call(this);
@@ -140,6 +220,9 @@ export default Vue.extend({
       this.$refs.input.$el.blur();
 
       if (e) this.$nextTick(() => this.$emit('blur', e));
+      if (!this.$refs.balloon.$refs.content.contains(e.relatedTarget)) {
+        this.balloon.reset();
+      }
     },
     onFocus(e) {
       if (!this.$refs.input) return;
@@ -147,11 +230,7 @@ export default Vue.extend({
       const root = attachedRoot(this.$el);
       if (!root) return;
 
-      if (!root.activeElement.closest(`#${this.$refs.input.$el.id}`)) {
-        this.editor.commands.focus();
-      }
-
-      if (!this.hasMouseDown && !this.hasFocused) {
+      if (!this.hasMouseDown && !this.isFocused && !this.hasFocused) {
         this.editor.commands.focus('end');
       }
 

@@ -11,13 +11,22 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@tiptap/core": "^2.4.0",
+    "@tiptap/extension-bold": "^2.3.0",
+    "@tiptap/extension-document": "^2.3.0",
+    "@tiptap/extension-heading": "^2.3.0",
+    "@tiptap/extension-highlight": "^2.4.0",
+    "@tiptap/extension-link": "^2.4.0",
+    "@tiptap/extension-paragraph": "^2.3.0",
+    "@tiptap/extension-text": "^2.3.0",
+    "@tiptap/extension-underline": "^2.3.0",
     "@tiptap/pm": "^2.2.4",
-    "@tiptap/starter-kit": "^2.2.4",
     "@tiptap/vue-2": "^2.2.4",
     "vue": "^2.7.7",
     "vuetify": "^2.7.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.24.1",
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/node": "^16.11.45",
     "@vitejs/plugin-legacy": "^2.0.0",

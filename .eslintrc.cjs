@@ -14,6 +14,12 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
   },
+  parserOptions: {
+    ecmaVersion: 12,
+    parser: '@babel/eslint-parser',
+    requireConfigFile: false,
+    sourceType: 'module',
+  },
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],

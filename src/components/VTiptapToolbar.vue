@@ -1,29 +1,24 @@
 <script>
 import VToolbar from 'vuetify/lib/components/VToolbar/VToolbar';
 
-import { genFormatings } from '../extensions/formatings';
-import { genHeadings } from '../extensions/headings';
-
 export default {
   name: 'v-tiptap-toolbar',
   props: {
+    content: {
+      type: [Object, Function],
+      default: () => ({}),
+    },
     editor: {
       type: Object,
       required: true,
     },
   },
+  data() {
+    return {
+      isFocused: false,
+    };
+  },
   methods: {
-    genToolbarSections() {
-      const { editor, $createElement } = this;
-
-      const formatings = genFormatings({ editor, $createElement });
-      const headings = genHeadings({ editor, $createElement });
-
-      return [
-        formatings,
-        headings,
-      ];
-    },
     genContent() {
       return this.$createElement(VToolbar, {
         props: {
@@ -33,18 +28,46 @@ export default {
           height: 'auto',
           backgroundColor: 'transparent',
         },
-      }, [...this.genToolbarSections()]);
+      }, [this.content]);
     },
   },
   render(h) {
     return h('div', {
       staticClass: 'v-tiptap-toolbar',
       on: {
+        focusin: (e) => {
+          if (!this.isFocused) {
+            this.isFocused = true;
+            this.$emit('focus', e);
+          }
+        },
         mousedown: (e) => {
           e.preventDefault();
           e.stopPropagation();
         },
+        click: (e) => {
+          this.editor.commands.focus();
+          e.preventDefault();
+          e.stopPropagation();
+        },
       },
+      directives: [
+        ...this.isFocused ? [{
+          name: 'click-outside',
+          value: {
+            handler: (e) => {
+              if (!this.$el.contains(e.target)) {
+                this.isFocused = false;
+                this.$emit('blur', e);
+              }
+            },
+            include: () => {
+              const allIncluded = document.querySelectorAll('.editor-included');
+              return Array.prototype.slice.call(allIncluded);
+            },
+          },
+        }] : [],
+      ],
     }, [this.genContent()]);
   },
 };

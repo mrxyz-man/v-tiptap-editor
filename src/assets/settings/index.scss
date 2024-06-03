@@ -26,10 +26,18 @@
       }
 }
 
-.v-tiptap-editor {
-  .v-tiptap-toolbar
+.v-tiptap-toolbar {
   .v-toolbar__content {
     padding: 0;
+  }
+}
+
+.v-tiptap-editor {
+  .selection {
+    color: HighlightText;
+    background-color: #3862cd;
+    border-top: 5.4px solid #3862cd;
+    border-bottom: 5.4px solid #3862cd;
   }
 
   .v-tiptap-field {

@@ -6,6 +6,7 @@
           v-col(cols="12")
             v-tiptap-editor(
               v-model="tiptapVal1"
+              :extensions="extensions"
               filled
               label="Filled"
             )
@@ -44,6 +45,12 @@
 </template>
 
 <script>
+import {
+  Bold,
+  Underline,
+  Heading,
+  Link,
+} from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
 export default {
@@ -52,6 +59,14 @@ export default {
   },
   data() {
     return {
+      extensions: [
+        Bold.configure({
+          // icon: 'mdi-format-underline',
+        }),
+        Underline,
+        Heading,
+        Link,
+      ],
       tiptapVal1: `<p>
         I’m running Tiptap with Vue.js. 🎉
         I’m running Tiptap with Vue.js. 🎉
@@ -75,7 +90,9 @@ export default {
         I’m running Tiptap with Vue.js. 🎉
         I’m running Tiptap with Vue.js. 🎉
         I’m running Tiptap with Vue.js. 🎉
-      </p>`,
+      </p>
+      <p>Heading 1</p>
+      `,
     };
   },
 };

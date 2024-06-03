@@ -12,10 +12,18 @@ export default Vue.extend({
         this.dimensions.content.width,
         parseFloat(this.calculatedMinWidth),
       );
-      return convertToUnit(
-        this.calcXOverflow(this.dimensions.activator.left, menuWidth)
-        - (menuWidth / 2),
-      );
+
+      // !Make easy in future
+      const current = this.calcXOverflow(this.dimensions.activator.left, menuWidth) - menuWidth / 2;
+
+      const min = this.attach ? this.attach.getBoundingClientRect().left : 0;
+      const max = this.attach ? this.attach.getBoundingClientRect().right - menuWidth : 0;
+
+      const output = current > min && current < max
+        ? current
+        : Math.abs(current > (min + max) / 2 ? max : min);
+
+      return convertToUnit(output);
     },
   },
 });
