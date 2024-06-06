@@ -119,13 +119,14 @@ export default Vue.extend({
       return $createElement(VTiptapToolbar, {
         props: {
           editor,
-          content: groupExtensions({
-            editor,
-            extensions,
-            $createElement,
-          }),
         },
-      });
+      }, [
+        groupExtensions({
+          editor,
+          extensions,
+          $createElement,
+        }),
+      ]);
     },
     genInput() {
       const input = VTextField.options.methods.genInput.call(this);
