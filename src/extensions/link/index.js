@@ -1,7 +1,7 @@
 import { Link as LinkNative } from '@tiptap/extension-link';
 import renders from '@/renders';
 
-import AddLink from './AddLink.vue';
+// import AddLink from './AddLink.vue';
 
 export default LinkNative.extend({
   addOptions() {
@@ -29,8 +29,6 @@ export default LinkNative.extend({
 
       render({
         editor,
-        balloon,
-        genToolbar,
         $createElement,
       }) {
         return renders.toggle({
@@ -39,26 +37,6 @@ export default LinkNative.extend({
           $createElement,
           options: {
             on: {
-              click: () => {
-                balloon.set({
-                  id: '2',
-                  ...balloon.props,
-                  editor,
-                  content: genToolbar({
-                    props: {
-                      editor,
-                      content: $createElement(AddLink, {
-                        on: {
-                          close: () => {
-                            balloon.reset();
-                            editor.commands.focus();
-                          },
-                        },
-                      }),
-                    },
-                  }),
-                });
-              },
             },
           },
         });

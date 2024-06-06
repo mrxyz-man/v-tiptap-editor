@@ -10,9 +10,7 @@ const TYPES_DATA = {
   [TYPES.formating]: {
     id: TYPES.formating,
     render: ({
-      balloon,
       extensions,
-      genToolbar,
       $createElement,
       editor,
     }) => $createElement(VBtnToggle, {
@@ -25,8 +23,6 @@ const TYPES_DATA = {
       },
     }, [...extensions.map((ext) => ext.options.render({
       editor,
-      balloon,
-      genToolbar,
       $createElement,
     }))]),
   },
@@ -69,9 +65,7 @@ const TYPES_DATA = {
 
 export default ({
   editor,
-  balloon,
   extensions,
-  genToolbar,
   $createElement,
 }) => {
   const groups = extensions.reduce((acc, ext) => {
@@ -93,8 +87,6 @@ export default ({
 
       return render({
         editor,
-        balloon,
-        genToolbar,
         $createElement,
         extensions: exts,
       });
