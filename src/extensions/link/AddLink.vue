@@ -1,17 +1,18 @@
 <template lang="pug">
   v-text-field(
     ref="textfield"
+    v-model="value"
     v-bind="attrs"
   )
     template(#append)
       v-icon(
         color="success"
-        @click="$emit('save')"
+        @click="$emit('save', value)"
       ) mdi-check
       v-icon.ml-2(
         color="error"
-        @click="$emit('close')"
-        @blur="blur"
+        @click="onClose"
+        @blur="onBlur"
       ) mdi-close
 </template>
 
@@ -31,7 +32,7 @@ export default {
     },
     autofocus: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     label: {
       type: String,
@@ -46,6 +47,11 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      value: this.$attrs.value || '',
+    };
+  },
   computed: {
     attrs() {
       const { $props, $attrs } = this;
@@ -53,7 +59,14 @@ export default {
     },
   },
   methods: {
-    blur(e) {
+    onClose() {
+      this.reset();
+      this.$emit('close');
+    },
+    reset() {
+      this.value = '';
+    },
+    onBlur(e) {
       this.$refs.textfield.$refs.input.focus();
       e.preventDefault();
       e.stopPropagation();

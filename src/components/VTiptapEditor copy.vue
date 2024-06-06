@@ -4,32 +4,23 @@ import VTextField from 'vuetify/lib/components/VTextField/VTextField';
 import VInput from 'vuetify/lib/components/VInput/VInput';
 import { attachedRoot } from 'vuetify/lib/util/dom';
 
-import {
-  Editor,
-  EditorContent,
-  // BubbleMenu as BubbleMenuComponent,
-} from '@tiptap/vue-2';
-
+import { Editor, EditorContent } from '@tiptap/vue-2';
 import {
   Text,
   Document,
   Paragraph,
   Highlight,
-  BubbleMenu,
 } from '@/extensions';
-
 import { groupExtensions } from '@/utils';
 
 import VTiptapToolbar from './VTiptapToolbar.vue';
-import VBubbleMenu from './VBubbleMenu.vue';
-
+import VTiptapMenu from './VTiptapMenu.vue';
 import '@/assets/settings/index.scss';
 
 const REQUIRED_EXTENSIONS = [
   Text,
   Document,
   Paragraph,
-  BubbleMenu,
   Highlight.configure({
     multicolor: true,
     HTMLAttributes: {
@@ -37,8 +28,6 @@ const REQUIRED_EXTENSIONS = [
     },
   }),
 ];
-
-const BUBBLE_MENU_KEY = 'Editor';
 
 /*
 TODO LIST:
@@ -62,6 +51,7 @@ export default Vue.extend({
   data() {
     return {
       editor: null,
+      balloon: null,
       allExtensions: [
         ...this.extensions,
         ...REQUIRED_EXTENSIONS,
@@ -69,10 +59,31 @@ export default Vue.extend({
     };
   },
   created() {
-    const { $createElement } = this;
+    this.balloon = {
+      id: null,
+      content: null,
+      props: {
+        positionX: null,
+        positionY: null,
+        value: false,
+      },
+      set({ id, props, content }) {
+        this.id = id;
+        this.props = { ...this.props, ...props };
+        this.content = content;
+      },
+      reset() {
+        this.id = null;
+        this.props = {
+          positionX: null,
+          positionY: null,
+          value: false,
+        };
+        this.content = null;
+      },
+    };
 
     this.editor = new Editor({
-      $createElement,
       editorProps: {
         attributes: {
           style: 'width: inherit; outline: none; height: 100%;',
@@ -80,24 +91,38 @@ export default Vue.extend({
       },
       extensions: this.allExtensions,
       content: this.value,
-      // onCreate: ({ editor }) => {
-      //   editor.commands.setBubbleMenu({
-      //     key: BUBBLE_MENU_KEY,
-      //     content: this.genFunctionalToolbar,
-      //   });
-      // },
       onFocus: ({ event: e }) => {
         this.onFocus(e);
       },
       onBlur: ({ event: e }) => {
-        if (e.relatedTarget?.closest?.('.v-bubble-menu')) {
-          return;
-        }
-
         this.onBlur(e);
       },
       onUpdate: ({ editor }) => {
         this.internalValue = editor.getText() ? editor.getHTML() : '';
+      },
+      onSelectionUpdate: ({ editor, transaction }) => {
+        const headPosition = editor.view.coordsAtPos(transaction.selection.$head.pos);
+
+        this.balloon.set({
+          id: '1',
+          props: {
+            positionY: headPosition.top,
+            positionX: headPosition.left,
+            value: !transaction.selection.empty,
+          },
+          content: this.genFunctionalToolbar(),
+        });
+
+        this.allExtensions.forEach((ext) => {
+          ext?.options?.testHook?.({
+            editor,
+            transaction,
+            headPosition,
+            balloon: this.balloon,
+            genToolbar: this.genToolbar,
+            $createElement: this.$createElement,
+          });
+        });
       },
     });
   },
@@ -125,6 +150,7 @@ export default Vue.extend({
   methods: {
     genDefaultSlot() {
       return [
+        this.genBalloon(),
         this.genFieldset(),
         this.genTextFieldSlot(),
         this.genClearIcon(),
@@ -132,49 +158,64 @@ export default Vue.extend({
         this.genProgress(),
       ];
     },
-    genBubbleMenu() {
-      const { editor } = this;
-      const { menus } = editor.storage.bubbleMenu;
-      const { id } = editor.options.element;
+    genBalloon() {
+      const { $createElement, balloon } = this;
 
-      const targetMenus = menus[id];
-
-      if (!targetMenus) return [];
-
-      return Object.entries(targetMenus).map(([key, value]) => (
-        this.$createElement(VBubbleMenu, {
-          ref: `BubbleMenu${key}`,
-          class: 'v-bubble-menu',
-          props: {
-            ...value.props,
-            tippyOptions: {
-              ...value.props?.tippyOptions || {},
-              appendTo: () => this.$el,
-            },
-          },
-        }, [value.content()])
-      ));
+      return $createElement(VTiptapMenu, {
+        ref: 'balloon',
+        key: balloon.id,
+        props: {
+          top: true,
+          eager: true,
+          nudgeTop: 8,
+          attach: this.$el,
+          closeOnClick: false,
+          closeOnContentClick: false,
+          contentClass: 'v-tiptap-menu',
+          ...balloon.props,
+        },
+      }, [balloon.content]);
     },
-    genFunctionalToolbar(options = {}) {
+    genToolbar(options) {
+      return this.$createElement(VTiptapToolbar, {
+        ref: 'toolbar',
+        on: {
+          focus: () => {
+            this.isFocused = true;
+          },
+          blur: (e) => {
+            if (!this.$refs.input.$el.contains(e.target)) {
+              this.onBlur(e);
+            }
+
+            this.editor.commands.unsetHighlight();
+          },
+        },
+        ...options,
+      });
+    },
+    genFunctionalToolbar() {
       const {
         editor,
+        balloon,
+        genToolbar,
         allExtensions,
         $createElement,
       } = this;
 
       const extensions = allExtensions;
 
-      return $createElement(VTiptapToolbar, {
-        ref: 'toolbar',
+      return genToolbar({
         props: {
           editor,
           content: groupExtensions({
             editor,
+            balloon,
             extensions,
+            genToolbar,
             $createElement,
           }),
         },
-        ...options,
       });
     },
     genInput() {
@@ -193,6 +234,9 @@ export default Vue.extend({
       this.$refs.input.$el.blur();
 
       if (e) this.$nextTick(() => this.$emit('blur', e));
+      if (!this.$refs.balloon.$refs.content.contains(e.relatedTarget)) {
+        this.balloon.reset();
+      }
     },
     onFocus(e) {
       if (!this.$refs.input) return;
@@ -239,21 +283,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'v-tiptap-editor',
     }, [
-      ...this.genBubbleMenu(),
-      this.genFunctionalToolbar({
-        nativeOn: {
-          mousedown: (e) => {
-            this.editor.commands.focus();
-            e.preventDefault();
-            e.stopPropagation();
-          },
-          click: (e) => {
-            this.editor.commands.focus();
-            e.preventDefault();
-            e.stopPropagation();
-          },
-        },
-      }),
+      this.genFunctionalToolbar(),
       this.$createElement('div', this.setTextColor(this.validationState, {
         staticClass: 'v-input',
         class: this.classes,
