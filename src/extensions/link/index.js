@@ -1,9 +1,42 @@
+import Vue from 'vue';
 import { Link as LinkNative } from '@tiptap/extension-link';
 import renders from '@/renders';
 
-// import AddLink from './AddLink.vue';
+import vuetify from '@/plugins/vuetify';
+import LinkToolbar from './LinkToolbar.vue';
+
+const BubbleMenuKey = 'link';
 
 export default LinkNative.extend({
+  onCreate({ editor }) {
+    const createComponent = () => (
+      new Vue({
+        vuetify,
+        render: (h) => h(LinkToolbar, {
+          props: {
+            editor,
+          },
+        }),
+      }).$mount()
+    );
+
+    let component = createComponent();
+
+    editor.commands.createBubbleMenu({
+      key: BubbleMenuKey,
+      shouldShow: () => editor.isActive('link'),
+      tippyOptions: {
+        content: component.$el,
+        onShow() {
+          component = createComponent();
+        },
+        onHide() {
+          editor.commands.unsetHighlight();
+          component.$destroy();
+        },
+      },
+    });
+  },
   addOptions() {
     return {
       ...this.parent?.(),
@@ -37,6 +70,10 @@ export default LinkNative.extend({
           $createElement,
           options: {
             on: {
+              click: () => {
+                editor.commands.showBubbleMenu({ key: 'link' });
+                editor.commands.setHighlight();
+              },
             },
           },
         });

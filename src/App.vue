@@ -4,6 +4,17 @@
       v-container
         v-row
           v-col(cols="12")
+            div.d-flex.my-3
+              div
+                p Text #[a#test text]
+              v-btn(@click="() => $refs.tippy.show()") click
+
+              v-tiptap-tippy(
+                ref="tippy"
+                element="#test"
+              )
+                v-btn test 1
+
             v-tiptap-editor(
               v-model="tiptapVal1"
               :extensions="extensions"
@@ -52,10 +63,12 @@ import {
   Link,
 } from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
+import VTiptapTippy from './components/VTiptapTippy.vue';
 
 export default {
   components: {
     VTiptapEditor,
+    VTiptapTippy,
   },
   data() {
     return {

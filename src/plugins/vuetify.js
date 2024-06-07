@@ -3,12 +3,12 @@ import Vue from 'vue';
 import Vuetify, {
   VInput,
   VTextField,
-  ClickOutside,
   VContainer,
   VApp,
   VMain,
   VCol,
   VRow,
+  VBtn,
 } from 'vuetify/lib';
 
 Vue.use(Vuetify, {
@@ -20,9 +20,7 @@ Vue.use(Vuetify, {
     VMain,
     VCol,
     VRow,
-  },
-  directives: {
-    ClickOutside,
+    VBtn,
   },
 });
 

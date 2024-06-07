@@ -10,16 +10,20 @@ import {
   Document,
   Paragraph,
   Highlight,
+  BubbleMenu,
 } from '@/extensions';
 import { groupExtensions } from '@/utils';
 
 import VTiptapToolbar from './VTiptapToolbar.vue';
+// import VTiptapTippy from './VTiptapTippy.vue';
+
 import '@/assets/settings/index.scss';
 
 const REQUIRED_EXTENSIONS = [
   Text,
   Document,
   Paragraph,
+  BubbleMenu,
   Highlight.configure({
     multicolor: true,
     HTMLAttributes: {
@@ -69,11 +73,20 @@ export default Vue.extend({
         this.onFocus(e);
       },
       onBlur: ({ event: e }) => {
+        if (e?.relatedTarget && this.$el.parentNode?.contains(e.relatedTarget)) {
+          if (this.$refs.toolbar.$el.contains(e.relatedTarget)) {
+            this.editor.commands.focus();
+          }
+
+          return;
+        }
+
         this.onBlur(e);
       },
       onUpdate: ({ editor }) => {
         this.internalValue = editor.getText() ? editor.getHTML() : '';
       },
+      $createElement: this.$createElement,
     });
   },
   computed: {
@@ -98,15 +111,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    genDefaultSlot() {
-      return [
-        this.genFieldset(),
-        this.genTextFieldSlot(),
-        this.genClearIcon(),
-        this.genIconSlot(),
-        this.genProgress(),
-      ];
-    },
     genFunctionalToolbar() {
       const {
         editor,
@@ -117,6 +121,7 @@ export default Vue.extend({
       const extensions = allExtensions;
 
       return $createElement(VTiptapToolbar, {
+        ref: 'toolbar',
         props: {
           editor,
         },
@@ -127,6 +132,15 @@ export default Vue.extend({
           $createElement,
         }),
       ]);
+    },
+    genDefaultSlot() {
+      return [
+        this.genFieldset(),
+        this.genTextFieldSlot(),
+        this.genClearIcon(),
+        this.genIconSlot(),
+        this.genProgress(),
+      ];
     },
     genInput() {
       const input = VTextField.options.methods.genInput.call(this);

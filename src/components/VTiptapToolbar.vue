@@ -39,13 +39,13 @@ export default {
     },
     onBlur({ event }) {
       if (this.preventHide) {
-        this.editor.commands.focus();
+        // this.editor.commands.focus();
         this.preventHide = false;
         return;
       }
 
       if (event?.relatedTarget && this.$el.parentNode?.contains(event.relatedTarget)) {
-        this.editor.commands.focus();
+        // this.editor.commands.focus();
         return;
       }
     },
