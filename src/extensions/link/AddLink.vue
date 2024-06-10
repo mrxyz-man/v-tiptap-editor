@@ -2,6 +2,7 @@
   v-text-field(
     ref="textfield"
     v-bind="attrs"
+    @input="$emit('input', $event)"
   )
     template(#append)
       v-icon(

@@ -1,6 +1,10 @@
 <template lang="pug">
   v-tiptap-toolbar(:editor="editor")
-    add-link(:value="editor.getAttributes('link').href")
+    add-link(
+      v-model="url"
+      @save="$emit('link:save', url)"
+      @close="$emit('link:close')"
+    )
 </template>
 
 <script>
@@ -17,6 +21,11 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  data() {
+    return {
+      url: this.editor.getAttributes('link').href || '',
+    };
   },
 };
 </script>

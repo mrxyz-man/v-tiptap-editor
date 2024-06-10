@@ -73,9 +73,10 @@ export default Vue.extend({
         this.onFocus(e);
       },
       onBlur: ({ event: e }) => {
-        if (e?.relatedTarget && this.$el.parentNode?.contains(e.relatedTarget)) {
+        if (e?.relatedTarget && this.$el?.contains(e.relatedTarget)) {
           if (this.$refs.toolbar.$el.contains(e.relatedTarget)) {
             this.editor.commands.focus();
+            return;
           }
 
           return;

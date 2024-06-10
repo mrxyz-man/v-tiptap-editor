@@ -16,6 +16,14 @@ export default LinkNative.extend({
           props: {
             editor,
           },
+          on: {
+            'link:close': () => {
+              editor.commands.hideBubbleMenu({ key: BubbleMenuKey });
+            },
+            'link:save': (val) => {
+              editor.commands.setLink({ href: val });
+            },
+          },
         }),
       }).$mount()
     );
@@ -26,13 +34,17 @@ export default LinkNative.extend({
       key: BubbleMenuKey,
       shouldShow: () => editor.isActive('link'),
       tippyOptions: {
-        content: component.$el,
-        onShow() {
+        onShow(instance) {
           component = createComponent();
+          instance.setContent(component.$el);
+          // editor.chain().setHighlight().run();
         },
         onHide() {
-          editor.commands.unsetHighlight();
           component.$destroy();
+          // editor.chain().unsetHighlight().run();
+        },
+        onClickOutside() {
+          editor.chain().focus().blur().run();
         },
       },
     });
@@ -47,6 +59,7 @@ export default LinkNative.extend({
       value: 'link',
       command: 'toggleLink',
       editorValue: ['link'],
+      openOnClick: false,
 
       groupSerializer: (ext) => ext.options,
 
@@ -71,8 +84,7 @@ export default LinkNative.extend({
           options: {
             on: {
               click: () => {
-                editor.commands.showBubbleMenu({ key: 'link' });
-                editor.commands.setHighlight();
+                editor.commands.showBubbleMenu({ key: BubbleMenuKey });
               },
             },
           },
