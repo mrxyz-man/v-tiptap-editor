@@ -18,10 +18,28 @@ export default LinkNative.extend({
           },
           on: {
             'link:close': () => {
-              editor.commands.hideBubbleMenu({ key: BubbleMenuKey });
+              editor
+                .chain()
+                .focus()
+                .hideBubbleMenu({ key: BubbleMenuKey })
+                .run();
             },
             'link:save': (val) => {
-              editor.commands.setLink({ href: val });
+              editor
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .setLink({ href: val })
+                .run();
+            },
+            'link:reset': () => {
+              editor
+                .chain()
+                .focus()
+                .extendMarkRange('link')
+                .unsetLink()
+                .hideBubbleMenu({ key: BubbleMenuKey })
+                .run();
             },
           },
         }),
@@ -82,9 +100,16 @@ export default LinkNative.extend({
           item: this,
           $createElement,
           options: {
+            props: {
+              disabled: editor.state.selection.empty,
+            },
             on: {
               click: () => {
-                editor.commands.showBubbleMenu({ key: BubbleMenuKey });
+                editor
+                  .chain()
+                  .focus()
+                  .showBubbleMenu({ key: BubbleMenuKey })
+                  .run();
               },
             },
           },

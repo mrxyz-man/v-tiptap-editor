@@ -29,6 +29,23 @@ export default Extension.create({
           onMount(instance) {
             const headPosition = editor.view.coordsAtPos(editor.view.state.selection.$head.pos);
 
+            // if (shouldShow?.({ editor })) {
+            //   const { node } = editor.view.domAtPos(editor.view.state.selection.$head.pos);
+            //   const { posAtStart, posAtEnd } = node.parentNode.pmViewDesc;
+            //   const activePosition = editor.view.coordsAtPos(
+            //     posAtStart + (posAtEnd - posAtStart),
+            //   );
+
+            //   instance.setProps({
+            //     getReferenceClientRect: () => ({
+            //       top: activePosition.top,
+            //       left: activePosition.left - (this.content.clientWidth / 2),
+            //       width: this.content.clientWidth,
+            //     }),
+            //   });
+            //   return;
+            // }
+
             instance.setProps({
               getReferenceClientRect: () => ({
                 top: headPosition.top,

@@ -2,8 +2,10 @@
   v-tiptap-toolbar(:editor="editor")
     add-link(
       v-model="url"
-      @save="$emit('link:save', url)"
-      @close="$emit('link:close')"
+      :editable.sync="editable"
+      @close="onCloseLink"
+      @save="onSaveLink"
+      @reset="onResetLink"
     )
 </template>
 
@@ -24,8 +26,32 @@ export default {
   },
   data() {
     return {
-      url: this.editor.getAttributes('link').href || '',
+      initialURL: '',
+      editable: this.editor.isActive('link') || false,
+      url: this.editor.getAttributes('link').href || this.initialURL,
     };
+  },
+  methods: {
+    onSaveLink() {
+      if (this.editor.getAttributes('link').href !== this.url) {
+        this.$emit('link:save', this.url);
+      }
+
+      this.editable = this.editor.isActive('link');
+    },
+    onCloseLink() {
+      if (this.editor.isActive('link')) {
+        this.editable = this.editor.isActive('link');
+        this.editor.commands.focus();
+        return;
+      }
+
+      this.$emit('link:close');
+    },
+    onResetLink() {
+      this.url = this.initialURL;
+      this.$emit('link:reset', this.url);
+    },
   },
 };
 </script>
