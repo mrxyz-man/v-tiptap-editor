@@ -6,6 +6,7 @@ const TYPES = {
   formating: 'formating',
   heading: 'heading',
   history: 'history',
+  media: 'media',
 };
 
 const TYPES_DATA = {
@@ -61,6 +62,18 @@ const TYPES_DATA = {
   },
   [TYPES.history]: {
     id: TYPES.history,
+    render: ({ extensions, editor, $createElement }) => $createElement('div', {
+      staticClass: 'd-flex',
+    }, [
+      ...extensions.flatMap((ext) => ext.options.groupSerializer(ext))
+        .map((i) => i.render({
+          editor,
+          $createElement,
+        })),
+    ]),
+  },
+  [TYPES.media]: {
+    id: TYPES.media,
     render: ({ extensions, editor, $createElement }) => $createElement('div', {
       staticClass: 'd-flex',
     }, [

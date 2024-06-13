@@ -68,7 +68,7 @@ export default LinkNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      group: 'formating',
+      group: 'media',
 
       icon: 'mdi-link-variant',
       name: 'Ссылка',
@@ -99,6 +99,10 @@ export default LinkNative.extend({
           $createElement,
           options: {
             props: {
+              text: true,
+              height: 'auto',
+              minWidth: 'auto',
+              inputValue: editor.isActive('link'),
               disabled: editor.state.selection.empty,
             },
             on: {

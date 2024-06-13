@@ -51,6 +51,7 @@ import {
   Heading,
   Link,
   History,
+  Italic,
 } from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
@@ -66,6 +67,7 @@ export default {
           // icon: 'mdi-format-underline',
         }),
         Underline,
+        Italic,
         Heading,
         Link,
       ],

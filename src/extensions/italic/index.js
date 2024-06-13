@@ -1,17 +1,34 @@
-import ExtensionItalic from '@tiptap/extension-italic';
+import { Italic as ItalicNative } from '@tiptap/extension-italic';
 import renders from '@/renders';
 
-export default {
-  module: ExtensionItalic,
-  icon: 'mdi-format-italic',
-  command: 'toggleItalic',
-  get value() {
-    return 'italic';
+export default ItalicNative.extend({
+  addOptions() {
+    return {
+      ...this.parent?.(),
+      icon: 'mdi-format-italic',
+      command: 'toggleItalic',
+      value: 'italic',
+      group: 'formating',
+      editorValue: ['italic'],
+
+      groupSerializer: (ext) => ext.options,
+
+      callCommand(editor) {
+        const { command } = this;
+
+        editor
+          .chain()
+          ?.[command]()
+          .focus()
+          .run();
+      },
+
+      render(args) {
+        return renders.toggle({
+          item: this,
+          ...args,
+        });
+      },
+    };
   },
-  render(args) {
-    return renders.toggle({
-      item: this,
-      ...args,
-    });
-  },
-};
+});
