@@ -1,5 +1,6 @@
 import VSelect from 'vuetify/lib/components/VSelect/VSelect';
 import VBtnToggle from 'vuetify/lib/components/VBtnToggle/VBtnToggle';
+import VDivider from 'vuetify/lib/components/VDivider/VDivider';
 
 const TYPES = {
   formating: 'formating',
@@ -88,17 +89,28 @@ export default ({
     return { ...acc, [options.group]: [ext] };
   }, {});
 
+  const elements = Object.entries(groups).flatMap(([key, exts], index) => {
+    const { render } = TYPES_DATA[key];
+    const renderedGroup = render({
+      editor,
+      $createElement,
+      extensions: exts,
+    });
+
+    // Inject VDivider between extensions
+    if (index !== Object.entries(groups).length - 1) {
+      return [renderedGroup, $createElement(VDivider, {
+        class: 'my-1 mx-1',
+        props: {
+          vertical: true,
+        },
+      })];
+    }
+
+    return renderedGroup;
+  });
+
   return $createElement('div', {
     class: 'd-flex',
-  }, [
-    ...Object.entries(groups).map(([key, exts]) => {
-      const { render } = TYPES_DATA[key];
-
-      return render({
-        editor,
-        $createElement,
-        extensions: exts,
-      });
-    }),
-  ]);
+  }, elements);
 };

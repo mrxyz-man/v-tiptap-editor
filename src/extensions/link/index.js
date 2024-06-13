@@ -57,12 +57,10 @@ export default LinkNative.extend({
           instance.setContent(component.$el);
           // editor.chain().setHighlight().run();
         },
-        onHide() {
+        onHide(instance) {
           component.$destroy();
+          instance.setContent('');
           // editor.chain().unsetHighlight().run();
-        },
-        onClickOutside() {
-          editor.chain().focus().blur().run();
         },
       },
     });

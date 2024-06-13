@@ -26,6 +26,10 @@ export default Extension.create({
           trigger: 'manual',
           appendTo: editorElm.closest('.v-tiptap-editor'),
 
+          onClickOutside() {
+            editor.chain().focus().blur().run();
+          },
+
           onMount(instance) {
             const headPosition = editor.view.coordsAtPos(editor.view.state.selection.$head.pos);
 
