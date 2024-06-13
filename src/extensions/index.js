@@ -7,3 +7,4 @@ export { default as Bold } from './bold';
 export { default as Link } from './link';
 export { default as Highlight } from './highlight';
 export { default as BubbleMenu } from './bubble-menu';
+export { default as History } from './history';

@@ -50,6 +50,7 @@ import {
   Underline,
   Heading,
   Link,
+  History,
 } from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
@@ -60,6 +61,7 @@ export default {
   data() {
     return {
       extensions: [
+        History,
         Bold.configure({
           // icon: 'mdi-format-underline',
         }),

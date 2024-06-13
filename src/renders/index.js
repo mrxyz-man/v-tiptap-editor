@@ -4,6 +4,7 @@ import VIcon from 'vuetify/lib/components/VIcon/VIcon';
 export default {
   toggle: ({
     item,
+    props,
     editor,
     options,
     $createElement,
@@ -14,6 +15,7 @@ export default {
     props: {
       text: true,
       value: item.value,
+      ...props || {},
     },
     on: {
       click: () => {

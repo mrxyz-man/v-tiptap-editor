@@ -16,6 +16,7 @@
     "@tiptap/extension-document": "^2.3.0",
     "@tiptap/extension-heading": "^2.3.0",
     "@tiptap/extension-highlight": "^2.4.0",
+    "@tiptap/extension-history": "^2.4.0",
     "@tiptap/extension-link": "^2.4.0",
     "@tiptap/extension-paragraph": "^2.3.0",
     "@tiptap/extension-text": "^2.3.0",

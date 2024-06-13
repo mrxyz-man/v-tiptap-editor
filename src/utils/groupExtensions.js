@@ -4,16 +4,13 @@ import VBtnToggle from 'vuetify/lib/components/VBtnToggle/VBtnToggle';
 const TYPES = {
   formating: 'formating',
   heading: 'heading',
+  history: 'history',
 };
 
 const TYPES_DATA = {
   [TYPES.formating]: {
     id: TYPES.formating,
-    render: ({
-      extensions,
-      $createElement,
-      editor,
-    }) => $createElement(VBtnToggle, {
+    render: ({ extensions, $createElement, editor }) => $createElement(VBtnToggle, {
       props: {
         multiple: true,
         borderless: true,
@@ -60,6 +57,18 @@ const TYPES_DATA = {
         },
       },
     }, []),
+  },
+  [TYPES.history]: {
+    id: TYPES.history,
+    render: ({ extensions, editor, $createElement }) => $createElement('div', {
+      staticClass: 'd-flex',
+    }, [
+      ...extensions.flatMap((ext) => ext.options.groupSerializer(ext))
+        .map((i) => i.render({
+          editor,
+          $createElement,
+        })),
+    ]),
   },
 };
 
