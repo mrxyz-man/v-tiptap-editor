@@ -6,25 +6,27 @@ export default ParagraphNative.extend({
       ...this.parent?.(),
       group: 'heading',
 
-      icon: 'mdi-format-paragraph',
-      name: 'Обычный',
-      value: 'paragraph',
-      command: 'setParagraph',
-      editorValue: ['paragraph'],
+      item: {
+        id: 'paragraph',
+        icon: 'mdi-format-paragraph',
+        name: 'Обычный',
+        command: 'setParagraph',
 
-      groupSerializer: (ext) => ext.options,
+        get value() {
+          return [this.id];
+        },
 
-      callCommand(editor) {
-        const { command } = this;
+        callCommand(editor) {
+          const { command } = this;
 
-        editor
-          .chain()
-          ?.[command]()
-          .run();
+          editor
+            .chain()
+            ?.[command]()
+            .run();
+        },
       },
 
-      // render(args) {
-      // },
+      groupSerializer: (ext) => ext.options.item,
     };
   },
 });

@@ -45,6 +45,8 @@
 </template>
 
 <script>
+// import { inline, btnToggle } from '@/renders';
+
 import {
   Bold,
   Underline,
@@ -64,13 +66,28 @@ export default {
       extensions: [
         History,
         Bold.configure({
-          // icon: 'mdi-format-underline',
+          // item: {
+          //   icon: 'mdi-format-underline',
+          // },
         }),
         Underline,
         Italic,
         Heading,
         Link,
       ],
+      // toolbar: {
+      //   items: [
+      //     {
+      //       exts: ['history'],
+      //       render: inline,
+      //     },
+      //     '|',
+      //     {
+      //       render: btnToggle,
+      //       exts: ['underline', 'bold', 'italic'],
+      //     },
+      //   ],
+      // },
       tiptapVal1: `<p>
         I’m running Tiptap with Vue.js. 🎉
         I’m running Tiptap with Vue.js. 🎉

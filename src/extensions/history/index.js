@@ -1,5 +1,5 @@
 import { History as HistoryNative } from '@tiptap/extension-history';
-import renders from '@/renders';
+import { btn } from '@/renders';
 
 export default HistoryNative.extend({
   addOptions() {
@@ -12,10 +12,13 @@ export default HistoryNative.extend({
 
       items: [
         {
+          id: 'undo',
           icon: 'mdi-undo',
           command: 'undo',
-          value: 'undo',
-          editorValue: ['undo'],
+
+          get value() {
+            return [this.id];
+          },
 
           callCommand(editor) {
             const { command } = this;
@@ -28,22 +31,27 @@ export default HistoryNative.extend({
           },
 
           render(args) {
-            return renders.toggle({
+            return btn({
               item: this,
               props: {
-                height: 'auto',
                 minWidth: 'auto',
                 disabled: !args.editor.can()[this.command](),
+              },
+              options: {
+                class: 'align-self-center',
               },
               ...args,
             });
           },
         },
         {
+          id: 'redo',
           icon: 'mdi-redo',
           command: 'redo',
-          value: 'redo',
-          editorValue: ['redo'],
+
+          get value() {
+            return [this.id];
+          },
 
           callCommand(editor) {
             const { command } = this;
@@ -56,12 +64,14 @@ export default HistoryNative.extend({
           },
 
           render(args) {
-            return renders.toggle({
+            return btn({
               item: this,
               props: {
-                height: 'auto',
                 minWidth: 'auto',
                 disabled: !args.editor.can()[this.command](),
+              },
+              options: {
+                class: 'align-self-center',
               },
               ...args,
             });

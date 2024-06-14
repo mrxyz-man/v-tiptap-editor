@@ -1,6 +1,6 @@
-import groupExtensions from './groupExtensions';
+import renderExtensions from './renderExtensions';
 
-export { groupExtensions };
+export { renderExtensions };
 export default {
-  groupExtensions,
+  renderExtensions,
 };

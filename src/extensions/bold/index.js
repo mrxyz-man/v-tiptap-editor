@@ -1,34 +1,40 @@
 import { Bold as BoldNative } from '@tiptap/extension-bold';
-import renders from '@/renders';
+import { btn } from '@/renders';
 
 export default BoldNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      icon: 'mdi-format-bold',
-      command: 'toggleBold',
-      value: 'bold',
       group: 'formating',
-      editorValue: ['bold'],
 
-      groupSerializer: (ext) => ext.options,
+      item: {
+        id: 'bold',
+        icon: 'mdi-format-bold',
+        command: 'toggleBold',
 
-      callCommand(editor) {
-        const { command } = this;
+        get value() {
+          return [this.id];
+        },
 
-        editor
-          .chain()
-          ?.[command]()
-          .focus()
-          .run();
+        callCommand(editor) {
+          const { command } = this;
+
+          editor
+            .chain()
+            ?.[command]()
+            .focus()
+            .run();
+        },
+
+        render(args) {
+          return btn({
+            item: this,
+            ...args,
+          });
+        },
       },
 
-      render(args) {
-        return renders.toggle({
-          item: this,
-          ...args,
-        });
-      },
+      groupSerializer: (ext) => ext.options.item,
     };
   },
 });

@@ -1,5 +1,4 @@
 import { Heading as HeadingNative } from '@tiptap/extension-heading';
-// import renders from '@/renders';
 
 export default HeadingNative.extend({
   addOptions() {
@@ -8,15 +7,16 @@ export default HeadingNative.extend({
       icon: 'mdi-format-header-pound',
       group: 'heading',
 
-      groupSerializer: (ext) => ext.options.items,
-
       items: [
         ...[...this.parent?.()?.levels || []].map((level) => ({
-          icon: `mdi-format-header-${level}`,
+          id: `heading-${level}`,
           name: `Заголовок ${level}`,
-          value: `heading-${level}`,
+          icon: `mdi-format-header-${level}`,
           command: 'toggleHeading',
-          editorValue: ['heading', { level }],
+
+          get value() {
+            return ['heading', { level }];
+          },
 
           callCommand(editor) {
             const { command } = this;
@@ -30,8 +30,7 @@ export default HeadingNative.extend({
         })),
       ],
 
-      // render(args) {
-      // },
+      groupSerializer: (ext) => ext.options.items,
     };
   },
 });

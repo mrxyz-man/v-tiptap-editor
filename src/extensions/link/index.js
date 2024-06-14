@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Link as LinkNative } from '@tiptap/extension-link';
-import renders from '@/renders';
+import { btn } from '@/renders';
 
 import vuetify from '@/plugins/vuetify';
 import LinkToolbar from './LinkToolbar.vue';
@@ -70,53 +70,59 @@ export default LinkNative.extend({
       ...this.parent?.(),
       group: 'media',
 
-      icon: 'mdi-link-variant',
-      name: 'Ссылка',
-      value: 'link',
-      command: 'toggleLink',
-      editorValue: ['link'],
       openOnClick: false,
 
-      groupSerializer: (ext) => ext.options,
+      item: {
+        id: 'link',
+        icon: 'mdi-link-variant',
+        name: 'Ссылка',
+        command: 'toggleLink',
 
-      callCommand(editor) {
-        const { command } = this;
+        get value() {
+          return [this.id];
+        },
 
-        editor
-          .chain()
-          ?.[command]()
-          .focus()
-          .run();
-      },
+        callCommand(editor) {
+          const { command } = this;
 
-      render({
-        editor,
-        $createElement,
-      }) {
-        return renders.toggle({
+          editor
+            .chain()
+            ?.[command]()
+            .focus()
+            .run();
+        },
+
+        render({
           editor,
-          item: this,
           $createElement,
-          options: {
-            props: {
-              text: true,
-              height: 'auto',
-              minWidth: 'auto',
-              inputValue: editor.isActive('link'),
-              disabled: editor.state.selection.empty,
-            },
-            on: {
-              click: () => {
-                editor
-                  .chain()
-                  .focus()
-                  .showBubbleMenu({ key: BubbleMenuKey })
-                  .run();
+        }) {
+          return btn({
+            editor,
+            item: this,
+            $createElement,
+            options: {
+              props: {
+                text: true,
+                height: 'auto',
+                minWidth: 'auto',
+                inputValue: editor.isActive('link'),
+                disabled: editor.state.selection.empty,
+              },
+              on: {
+                click: () => {
+                  editor
+                    .chain()
+                    .focus()
+                    .showBubbleMenu({ key: BubbleMenuKey })
+                    .run();
+                },
               },
             },
-          },
-        });
+          });
+        },
       },
+
+      groupSerializer: (ext) => ext.options.item,
     };
   },
 });

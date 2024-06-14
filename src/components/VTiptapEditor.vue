@@ -12,10 +12,15 @@ import {
   Highlight,
   BubbleMenu,
 } from '@/extensions';
-import { groupExtensions } from '@/utils';
+import { renderExtensions } from '@/utils';
+
+import {
+  inline,
+  select,
+  btnToggle,
+} from '@/renders';
 
 import VTiptapToolbar from './VTiptapToolbar.vue';
-// import VTiptapTippy from './VTiptapTippy.vue';
 
 import '@/assets/settings/index.scss';
 
@@ -32,14 +37,39 @@ const REQUIRED_EXTENSIONS = [
   }),
 ];
 
+const DEFAULT_TOOLBAR_CONFIG = {
+  items: [
+    {
+      exts: ['history'],
+      render: inline,
+    },
+    '|',
+    {
+      exts: ['bold', 'underline', 'italic'],
+      render: btnToggle,
+    },
+    '|',
+    {
+      exts: ['paragraph', 'heading'],
+      render: select,
+    },
+    '|',
+    {
+      exts: ['link'],
+      render: inline,
+    },
+  ],
+};
+
 /*
 TODO LIST:
 [ ] - Usage typescript syntax;
 [ ] - Add special editor props support;
 [ ] - Optimize the new logic;
-[ ] - Add functional toolbar;
+// [*] - Add functional toolbar;
+[ ] - Add functional toolbar configuration support;
 [ ] - Add functional tooltip by selection;
-[ ] - Test all text-field functionality with new shell;
+// [*] - Test all text-field functionality with new shell;
 [ ] - Add support save default styles by props (enabled/disabled);
 */
 export default Vue.extend({
@@ -49,6 +79,10 @@ export default Vue.extend({
     extensions: {
       type: Array,
       default: () => [],
+    },
+    toolbar: {
+      type: Object,
+      default: () => DEFAULT_TOOLBAR_CONFIG,
     },
   },
   data() {
@@ -115,6 +149,7 @@ export default Vue.extend({
     genFunctionalToolbar() {
       const {
         editor,
+        toolbar,
         allExtensions,
         $createElement,
       } = this;
@@ -127,10 +162,11 @@ export default Vue.extend({
           editor,
         },
       }, [
-        groupExtensions({
+        renderExtensions({
           editor,
           extensions,
           $createElement,
+          config: toolbar,
         }),
       ]);
     },
