@@ -5,7 +5,6 @@ export default BoldNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      group: 'formating',
 
       item: {
         id: 'bold',

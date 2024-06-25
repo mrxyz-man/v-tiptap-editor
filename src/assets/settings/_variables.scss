@@ -1,5 +1,10 @@
 @import 'vuetify/src/styles/styles.sass';
 
+$tiptap-editor-colors: (
+  'hover': map-get($yellow, darken-2),
+  'active': map-get($blue, darken-2),
+);
+
 $tiptap-editor-line-height: 1.75rem !default;
 $tiptap-editor-min-height: 32px !default;
 $tiptap-editor-padding: 0 !default;

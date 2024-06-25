@@ -68,7 +68,6 @@ export const select = ({
     menuProps: {
       nudgeTop: 8,
       nudgeLeft: 4,
-      contentClass: 'editor-included',
     },
     itemText: 'name',
     itemValue: 'value',

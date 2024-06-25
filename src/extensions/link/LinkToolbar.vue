@@ -33,16 +33,12 @@ export default {
   },
   methods: {
     onSaveLink() {
-      if (this.editor.getAttributes('link').href !== this.url) {
-        this.$emit('link:save', this.url);
-      }
-
+      this.$emit('link:save', this.url);
       this.editable = this.editor.isActive('link');
     },
     onCloseLink() {
       if (this.editor.isActive('link')) {
         this.editable = this.editor.isActive('link');
-        this.editor.commands.focus();
         return;
       }
 

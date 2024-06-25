@@ -5,7 +5,6 @@ export default ItalicNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      group: 'formating',
 
       item: {
         id: 'italic',

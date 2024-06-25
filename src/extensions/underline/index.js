@@ -5,7 +5,6 @@ export default UnderlineNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      group: 'formating',
 
       item: {
         id: 'underline',

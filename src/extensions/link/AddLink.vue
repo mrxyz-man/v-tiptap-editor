@@ -9,12 +9,16 @@
         v-list-item-content
           v-list-item-title
             a(
+              ref="link"
               :href="attrs.value"
               target="_blank"
             ) {{ attrs.value }}
         v-list-item-action-text
-          v-icon(@click="toggleEdit") mdi-link-edit
-          v-icon.ml-2(@click="$emit('reset')") mdi-link-off
+          v-icon.ml-2(@click="toggleEdit") mdi-link-edit
+          v-icon.ml-2(
+            @click="$emit('reset')"
+            @blur="blur"
+          ) mdi-link-off
 
     div(
       v-else
@@ -28,6 +32,7 @@
       )
         template(#append)
           v-icon(
+            :disabled="!attrs.value"
             color="success"
             @click="$emit('save')"
           ) mdi-check
@@ -125,7 +130,8 @@ export default {
       this.$refs.textfield.$refs.input.scrollLeft = 0;
     },
     blur(e) {
-      this.$refs.textfield.$refs.input.focus();
+      this.$refs?.textfield?.$refs?.input?.focus();
+      this.$refs?.link?.focus();
       e.preventDefault();
       e.stopPropagation();
     },

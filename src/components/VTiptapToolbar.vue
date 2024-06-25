@@ -8,6 +8,14 @@ export default {
       type: Object,
       required: true,
     },
+    flat: {
+      type: Boolean,
+      default: false,
+    },
+    focusable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -26,7 +34,7 @@ export default {
     genContent() {
       return this.$createElement(VToolbar, {
         props: {
-          flat: true,
+          flat: this.flat,
           dense: true,
           rounded: true,
           height: 'auto',
@@ -37,16 +45,9 @@ export default {
     onMouseDown() {
       this.preventHide = true;
     },
-    onBlur({ event }) {
-      if (this.preventHide) {
-        // this.editor.commands.focus();
-        this.preventHide = false;
-        return;
-      }
-
-      if (event?.relatedTarget && this.$el.parentNode?.contains(event.relatedTarget)) {
-        // this.editor.commands.focus();
-        return;
+    onBlur({ event: e, editor }) {
+      if (e?.relatedTarget && this.$el.contains(e?.relatedTarget)) {
+        if (!this.focusable) editor.commands.focus();
       }
     },
   },

@@ -10,6 +10,7 @@ import {
   Document,
   Paragraph,
   Highlight,
+  HardBreak,
   BubbleMenu,
 } from '@/extensions';
 import { renderExtensions } from '@/utils';
@@ -21,6 +22,7 @@ import {
 } from '@/renders';
 
 import VTiptapToolbar from './VTiptapToolbar.vue';
+import VTiptapTippy from './VTiptapTippy.vue';
 
 import '@/assets/settings/index.scss';
 
@@ -28,9 +30,9 @@ const REQUIRED_EXTENSIONS = [
   Text,
   Document,
   Paragraph,
+  HardBreak,
   BubbleMenu,
   Highlight.configure({
-    multicolor: true,
     HTMLAttributes: {
       class: 'selection',
     },
@@ -55,7 +57,7 @@ const DEFAULT_TOOLBAR_CONFIG = {
     },
     '|',
     {
-      exts: ['link'],
+      exts: ['link', 'image'],
       render: inline,
     },
   ],
@@ -67,7 +69,7 @@ TODO LIST:
 [ ] - Add special editor props support;
 [ ] - Optimize the new logic;
 // [*] - Add functional toolbar;
-[ ] - Add functional toolbar configuration support;
+// [*] - Add functional toolbar configuration support;
 [ ] - Add functional tooltip by selection;
 // [*] - Test all text-field functionality with new shell;
 [ ] - Add support save default styles by props (enabled/disabled);
@@ -88,6 +90,8 @@ export default Vue.extend({
   data() {
     return {
       editor: null,
+      includedClass: 'v-tiptap-editor--included',
+
       allExtensions: [
         ...this.extensions,
         ...REQUIRED_EXTENSIONS,
@@ -95,7 +99,10 @@ export default Vue.extend({
     };
   },
   created() {
+    const { includedClass } = this;
+
     this.editor = new Editor({
+      includedClass,
       editorProps: {
         attributes: {
           style: 'width: inherit; outline: none; height: 100%;',
@@ -106,18 +113,8 @@ export default Vue.extend({
       onFocus: ({ event: e }) => {
         this.onFocus(e);
       },
-      onBlur: ({ event: e }) => {
-        if (e?.relatedTarget && this.$el?.contains(e.relatedTarget)) {
-          if (this.$refs.toolbar.$el.contains(e.relatedTarget)) {
-            this.editor.commands.focus();
-            return;
-          }
-
-          return;
-        }
-
-        this.onBlur(e);
-      },
+      // onBlur: ({ event: e }) => {
+      // },
       onUpdate: ({ editor }) => {
         this.internalValue = editor.getText() ? editor.getHTML() : '';
       },
@@ -160,6 +157,8 @@ export default Vue.extend({
         ref: 'toolbar',
         props: {
           editor,
+          flat: true,
+          focusable: false,
         },
       }, [
         renderExtensions({
@@ -169,6 +168,31 @@ export default Vue.extend({
           config: toolbar,
         }),
       ]);
+    },
+    genBubbleMenus() {
+      const { editor, $createElement } = this;
+      const { element } = editor.options;
+      const menusDict = editor.storage?.bubbleMenu?.editors?.[element.id];
+      const menusList = menusDict ? Object.entries(menusDict) : [];
+
+      return menusList.map(([key, { state, content, shouldShow }]) => (
+        $createElement(VTiptapTippy, {
+          props: {
+            editor,
+            state,
+            content,
+            shouldShow,
+          },
+          on: {
+            'update:state': (val) => {
+              this.editor.commands.updateBubbleMenu({
+                key,
+                state: val,
+              });
+            },
+          },
+        })
+      ));
     },
     genDefaultSlot() {
       return [
@@ -187,6 +211,18 @@ export default Vue.extend({
         attrs: {
           ...input.data.attrs,
           editor: this.editor,
+        },
+        nativeOn: {
+          focusout: (e) => {
+            if (
+              (e?.relatedTarget && this.$el.contains(e?.relatedTarget))
+              || e?.relatedTarget?.closest?.(`.${this.includedClass}`)
+            ) {
+              return;
+            }
+
+            this.onBlur(e);
+          },
         },
       });
     },
@@ -220,6 +256,7 @@ export default Vue.extend({
     onMouseDown(e) {
       // Prevent input from being blurred
       if (!e.target.closest(`#${this.$refs.input.$el.id}`)) {
+        this.editor.commands.focus();
         e.preventDefault();
         e.stopPropagation();
       }
@@ -241,6 +278,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'v-tiptap-editor',
     }, [
+      ...this.genBubbleMenus(),
       this.genFunctionalToolbar(),
       this.$createElement('div', this.setTextColor(this.validationState, {
         staticClass: 'v-input',

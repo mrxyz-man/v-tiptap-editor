@@ -1,3 +1,4 @@
+import { mergeAttributes } from '@tiptap/core';
 import { Heading as HeadingNative } from '@tiptap/extension-heading';
 
 export default HeadingNative.extend({
@@ -5,7 +6,6 @@ export default HeadingNative.extend({
     return {
       ...this.parent?.(),
       icon: 'mdi-format-header-pound',
-      group: 'heading',
 
       items: [
         ...[...this.parent?.()?.levels || []].map((level) => ({
@@ -32,5 +32,25 @@ export default HeadingNative.extend({
 
       groupSerializer: (ext) => ext.options.items,
     };
+  },
+
+  renderHTML({ node, HTMLAttributes }) {
+    const hasLevel = this.options.levels.includes(node.attrs.level);
+    const level = hasLevel
+      ? node.attrs.level
+      : this.options.levels[0];
+
+    return [
+      `h${level}`,
+      mergeAttributes(
+        {
+          class: `text-h${level}`,
+          style: 'padding-top: .4em; margin-bottom: .4em',
+        },
+        this.options.HTMLAttributes,
+        HTMLAttributes,
+      ),
+      0,
+    ];
   },
 });

@@ -9,3 +9,5 @@ export { default as Highlight } from './highlight';
 export { default as BubbleMenu } from './bubble-menu';
 export { default as History } from './history';
 export { default as Italic } from './italic';
+export { default as Image } from './image';
+export { default as HardBreak } from './hard-break';

@@ -1,10 +1,10 @@
+import { mergeAttributes } from '@tiptap/core';
 import { Paragraph as ParagraphNative } from '@tiptap/extension-paragraph';
 
 export default ParagraphNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      group: 'heading',
 
       item: {
         id: 'paragraph',
@@ -28,5 +28,19 @@ export default ParagraphNative.extend({
 
       groupSerializer: (ext) => ext.options.item,
     };
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      'p',
+      mergeAttributes(
+        {
+          style: 'padding-top: .2em; margin-bottom: .4em',
+        },
+        this.options.HTMLAttributes,
+        HTMLAttributes,
+      ),
+      0,
+    ];
   },
 });

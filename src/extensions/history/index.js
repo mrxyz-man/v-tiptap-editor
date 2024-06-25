@@ -6,7 +6,6 @@ export default HistoryNative.extend({
     return {
       ...this.parent?.(),
       icon: 'mdi-history',
-      group: 'history',
 
       groupSerializer: (ext) => ext.options.items,
 

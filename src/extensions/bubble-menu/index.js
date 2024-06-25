@@ -1,7 +1,8 @@
-import tippy from 'tippy.js';
 import { Extension } from '@tiptap/core';
 
 export default Extension.create({
+  name: 'bubbleMenu',
+
   addStorage() {
     return {
       editors: {},
@@ -10,73 +11,46 @@ export default Extension.create({
 
   addCommands() {
     return {
-      createBubbleMenu: ({ key, shouldShow, tippyOptions }) => ({ editor }) => {
-        const editorElm = editor.options.element;
-        const { id } = editorElm;
+      createBubbleMenu: ({ key, shouldShow, content }) => ({ editor }) => {
+        const { element } = editor.options;
+        const { id } = element;
         const { storage } = this;
 
         if (!storage.editors[id]) {
           storage.editors[id] = {};
         }
 
-        storage.editors[id][key] = tippy(editorElm, {
-          ...tippyOptions,
-          allowHTML: true,
-          interactive: true,
-          trigger: 'manual',
-          appendTo: editorElm.closest('.v-tiptap-editor'),
-
-          onClickOutside() {
-            editor.chain().focus().blur().run();
+        storage.editors[id][key] = {
+          content,
+          state: false,
+          show() {
+            this.state = true;
           },
-
-          onMount(instance) {
-            const headPosition = editor.view.coordsAtPos(editor.view.state.selection.$head.pos);
-
-            // if (shouldShow?.({ editor })) {
-            //   const { node } = editor.view.domAtPos(editor.view.state.selection.$head.pos);
-            //   const { posAtStart, posAtEnd } = node.parentNode.pmViewDesc;
-            //   const activePosition = editor.view.coordsAtPos(
-            //     posAtStart + (posAtEnd - posAtStart),
-            //   );
-
-            //   instance.setProps({
-            //     getReferenceClientRect: () => ({
-            //       top: activePosition.top,
-            //       left: activePosition.left - (this.content.clientWidth / 2),
-            //       width: this.content.clientWidth,
-            //     }),
-            //   });
-            //   return;
-            // }
-
-            instance.setProps({
-              getReferenceClientRect: () => ({
-                top: headPosition.top,
-                left: headPosition.left - (this.content.clientWidth / 2),
-                width: this.content.clientWidth,
-              }),
-            });
+          hide() {
+            this.state = false;
           },
-        });
+        };
 
         editor.on('selectionUpdate', () => {
-          if (shouldShow?.({ editor })) {
-            storage.editors[id][key].show();
-          }
+          const menu = storage.editors[id][key];
+
+          if (shouldShow?.({ editor })) menu.show();
         });
       },
-      showBubbleMenu: ({ key }) => ({ editor }) => {
-        const editorElm = editor.options.element;
-        const { id } = editorElm;
+      updateBubbleMenu: ({ key, state }) => ({ editor }) => {
+        const { element } = editor.options;
+        const { id } = element;
 
-        this.storage.editors[id][key].show();
+        this.storage.editors[id][key] = {
+          ...this.storage.editors[id][key],
+          state,
+        };
+      },
+      showBubbleMenu: ({ key }) => ({ editor }) => {
+        editor.commands.updateBubbleMenu({ key, state: true });
       },
       hideBubbleMenu: ({ key }) => ({ editor }) => {
-        const editorElm = editor.options.element;
-        const { id } = editorElm;
-
-        this.storage.editors[id][key].hide();
+        editor.commands.updateBubbleMenu({ key, state: false });
       },
     };
   },

@@ -54,6 +54,7 @@ import {
   Link,
   History,
   Italic,
+  Image,
 } from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
@@ -74,6 +75,7 @@ export default {
         Italic,
         Heading,
         Link,
+        Image,
       ],
       // toolbar: {
       //   items: [
@@ -88,31 +90,9 @@ export default {
       //     },
       //   ],
       // },
-      tiptapVal1: `<p>
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-        I’m running Tiptap with Vue.js. 🎉
-      </p>
-      <p>Heading 1</p>
+      tiptapVal1: `
+        <h3><strong>Render HTML</strong></h3>
+        <p>With the <strong>renderHTML</strong> function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the <strong>Bold</strong> extension:</p>
       `,
     };
   },
