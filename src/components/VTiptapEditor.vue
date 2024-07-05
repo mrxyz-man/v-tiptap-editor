@@ -12,6 +12,8 @@ import {
   Highlight,
   HardBreak,
   BubbleMenu,
+  Dropcursor,
+  // Gapcursor,
 } from '@/extensions';
 import { renderExtensions } from '@/utils';
 
@@ -32,6 +34,8 @@ const REQUIRED_EXTENSIONS = [
   Paragraph,
   HardBreak,
   BubbleMenu,
+  Dropcursor,
+  // Gapcursor,
   Highlight.configure({
     HTMLAttributes: {
       class: 'selection',

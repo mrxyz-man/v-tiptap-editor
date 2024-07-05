@@ -22,19 +22,22 @@ export default Extension.create({
 
         storage.editors[id][key] = {
           content,
-          state: false,
-          show() {
-            this.state = true;
+          bufferState: false,
+
+          get state() {
+            return this.bufferState;
           },
-          hide() {
-            this.state = false;
+          set state(val) {
+            this.bufferState = val;
           },
         };
 
         editor.on('selectionUpdate', () => {
-          const menu = storage.editors[id][key];
-
-          if (shouldShow?.({ editor })) menu.show();
+          if (shouldShow?.({ editor })) {
+            editor.commands.updateBubbleMenu({
+              key, state: true,
+            });
+          }
         });
       },
       updateBubbleMenu: ({ key, state }) => ({ editor }) => {

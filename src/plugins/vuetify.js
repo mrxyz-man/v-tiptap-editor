@@ -10,6 +10,7 @@ import Vuetify, {
   VRow,
   VBtn,
 } from 'vuetify/lib';
+import { Mutate } from 'vuetify/lib/directives';
 
 Vue.use(Vuetify, {
   components: {
@@ -21,6 +22,9 @@ Vue.use(Vuetify, {
     VCol,
     VRow,
     VBtn,
+  },
+  directives: {
+    Mutate,
   },
 });
 

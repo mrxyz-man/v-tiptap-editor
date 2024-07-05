@@ -11,3 +11,5 @@ export { default as History } from './history';
 export { default as Italic } from './italic';
 export { default as Image } from './image';
 export { default as HardBreak } from './hard-break';
+export { default as Dropcursor } from './dropcursor';
+export { default as Gapcursor } from './gapcursor';

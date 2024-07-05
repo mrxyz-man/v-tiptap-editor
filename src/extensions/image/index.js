@@ -1,7 +1,10 @@
+import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Image as ImageNative } from '@tiptap/extension-image';
+import { VueNodeViewRenderer } from '@tiptap/vue-2';
 
 import LinkToolbar from '../link/LinkToolbar.vue';
 import ContextMenu from './ContextMenu.vue';
+import VTiptapImage from './VTiptapImage.vue';
 
 const AddURLBubbleMenuKey = 'image-add-url';
 
@@ -82,5 +85,38 @@ export default ImageNative.extend({
 
       groupSerializer: (ext) => ext.options.item,
     };
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey('image'),
+        props: {
+          decorations: ({ doc, selection }) => {
+            doc.descendants((node, pos) => {
+              if (node.type.name === this.name) {
+                const desc = this.editor.view.docView.descAt(pos);
+
+                if (
+                  selection.from <= pos
+                  && selection.to >= pos
+                  && !selection.empty
+                  && desc
+                ) {
+                  desc.selectNode();
+                  return;
+                }
+
+                if (desc) desc.deselectNode();
+              }
+            });
+          },
+        },
+      }),
+    ];
+  },
+
+  addNodeView() {
+    return VueNodeViewRenderer(VTiptapImage);
   },
 });

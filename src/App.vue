@@ -93,6 +93,7 @@ export default {
       tiptapVal1: `
         <h3><strong>Render HTML</strong></h3>
         <p>With the <strong>renderHTML</strong> function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the <strong>Bold</strong> extension:</p>
+        <img src="https://ckeditor.com/assets/images/ckdemo/editor-types/volcano_2x.jpg" />
       `,
     };
   },

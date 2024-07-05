@@ -33,20 +33,9 @@
 }
 
 .v-tiptap-editor {
-  img {
-    display: block;
-    height: auto;
-    margin: 1.5rem 0;
-    max-width: 100%;
-    // Default full-width
-    width: 100%;
-
-    &:hover {
-      outline: 4px solid map-get($tiptap-editor-colors, 'hover');
-    }
-
-    &.ProseMirror-selectednode {
-      outline: 4px solid map-get($tiptap-editor-colors, 'active');
+  .tiptap {
+    > :last-child {
+      margin-bottom: 1.4em;
     }
   }
 
@@ -137,6 +126,7 @@
 
     &.v-text-field--enclosed {
       .v-text-field__slot {
+        width: 100%;
         align-self: stretch;
       }
     }

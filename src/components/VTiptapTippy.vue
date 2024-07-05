@@ -40,9 +40,9 @@ export default {
       },
     );
 
-    editor.on('transaction', () => {
+    editor.on('transaction', ({ editor: e }) => {
       if (this.state) {
-        const headPosition = editor.view.coordsAtPos(editor.view.state.selection.$head.pos);
+        const headPosition = e.view.coordsAtPos(e.view.state.selection.$head.pos);
 
         this.tippy.setProps({
           getReferenceClientRect: () => ({

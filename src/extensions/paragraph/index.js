@@ -35,7 +35,7 @@ export default ParagraphNative.extend({
       'p',
       mergeAttributes(
         {
-          style: 'padding-top: .2em; margin-bottom: .4em',
+          style: 'padding-top: .2em; margin-bottom: .8em',
         },
         this.options.HTMLAttributes,
         HTMLAttributes,
