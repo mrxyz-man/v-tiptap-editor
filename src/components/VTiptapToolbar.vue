@@ -1,6 +1,4 @@
 <script>
-import VToolbar from 'vuetify/lib/components/VToolbar/VToolbar';
-
 export default {
   name: 'v-tiptap-toolbar',
   props: {
@@ -32,7 +30,7 @@ export default {
   },
   methods: {
     genContent() {
-      return this.$createElement(VToolbar, {
+      return this.$createElement('v-toolbar', {
         props: {
           flat: this.flat,
           dense: true,

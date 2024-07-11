@@ -44,10 +44,6 @@
 
 <script>
 import { NodeViewWrapper } from '@tiptap/vue-2';
-import VBtn from 'vuetify/lib/components/VBtn/VBtn';
-import VIcon from 'vuetify/lib/components/VIcon/VIcon';
-import VHover from 'vuetify/lib/components/VHover/VHover';
-import VOverlay from 'vuetify/lib/components/VOverlay/VOverlay';
 
 const CONTENT_POSITIONS = {
   before: 1,
@@ -66,10 +62,6 @@ const CONTENT_POSITIONS_DATA = {
 export default {
   components: {
     NodeViewWrapper,
-    VOverlay,
-    VHover,
-    VIcon,
-    VBtn,
   },
   props: {
     editor: {

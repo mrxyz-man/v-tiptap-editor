@@ -5,7 +5,9 @@ import { VueNodeViewRenderer } from '@tiptap/vue-2';
 import LinkToolbar from '../link/LinkToolbar.vue';
 import ContextMenu from './ContextMenu.vue';
 import VTiptapImage from './VTiptapImage.vue';
+import ImageToolbar from './ImageToolbar.vue';
 
+const ImageBubbleMenuKey = 'image';
 const AddURLBubbleMenuKey = 'image-add-url';
 
 export default ImageNative.extend({
@@ -13,6 +15,8 @@ export default ImageNative.extend({
     const linkToolbar = editor.options.$createElement(LinkToolbar, {
       props: {
         editor,
+        nodeName: this.name,
+        attrKey: 'src',
       },
       on: {
         'link:close': () => {
@@ -33,12 +37,33 @@ export default ImageNative.extend({
       },
     });
 
+    const imageToolbar = editor.options.$createElement(ImageToolbar, {
+      props: {
+        editor,
+      },
+    });
+
     editor.commands.createBubbleMenu({
       key: AddURLBubbleMenuKey,
       content: linkToolbar,
       shouldShow: () => false,
     });
+
+    editor.commands.createBubbleMenu({
+      key: ImageBubbleMenuKey,
+      content: imageToolbar,
+      shouldShow: () => editor.isActive('image'),
+    });
   },
+
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+
+      contain: false,
+    };
+  },
+
   addOptions() {
     return {
       ...this.parent?.(),
@@ -87,34 +112,54 @@ export default ImageNative.extend({
     };
   },
 
-  addProseMirrorPlugins() {
-    return [
-      new Plugin({
-        key: new PluginKey('image'),
-        props: {
-          decorations: ({ doc, selection }) => {
-            doc.descendants((node, pos) => {
-              if (node.type.name === this.name) {
-                const desc = this.editor.view.docView.descAt(pos);
+  addCommands() {
+    return {
+      ...this.parent?.(),
 
-                if (
-                  selection.from <= pos
-                  && selection.to >= pos
-                  && !selection.empty
-                  && desc
-                ) {
-                  desc.selectNode();
-                  return;
-                }
+      toggleImageContain: () => ({ editor, tr }) => {
+        const { state } = editor;
+        const { selection } = state;
+        const { from } = selection;
+        const node = state.doc.nodeAt(from);
 
-                if (desc) desc.deselectNode();
-              }
-            });
-          },
-        },
-      }),
-    ];
+        tr.setNodeMarkup(from, undefined, {
+          ...node.attrs,
+          contain: !node.attrs.contain,
+        });
+
+        return true;
+      },
+    };
   },
+
+  // addProseMirrorPlugins() {
+  //   return [
+  //     new Plugin({
+  //       key: new PluginKey('image'),
+  //       props: {
+  //         decorations: ({ doc, selection }) => {
+  //           doc.descendants((node, pos) => {
+  //             if (node.type.name === this.name) {
+  //               const desc = this.editor.view.docView.descAt(pos);
+
+  //               if (
+  //                 selection.from <= pos
+  //                 && selection.to >= pos
+  //                 && !selection.empty
+  //                 && desc
+  //               ) {
+  //                 desc.selectNode();
+  //                 return;
+  //               }
+
+  //               if (desc) desc.deselectNode();
+  //             }
+  //           });
+  //         },
+  //       },
+  //     }),
+  //   ];
+  // },
 
   addNodeView() {
     return VueNodeViewRenderer(VTiptapImage);

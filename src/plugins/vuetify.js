@@ -9,8 +9,14 @@ import Vuetify, {
   VCol,
   VRow,
   VBtn,
+  VIcon,
+  VSelect,
+  VBtnToggle,
+  VDivider,
+  VHover,
+  VOverlay,
+  VToolbar,
 } from 'vuetify/lib';
-import { Mutate } from 'vuetify/lib/directives';
 
 Vue.use(Vuetify, {
   components: {
@@ -22,9 +28,13 @@ Vue.use(Vuetify, {
     VCol,
     VRow,
     VBtn,
-  },
-  directives: {
-    Mutate,
+    VIcon,
+    VSelect,
+    VBtnToggle,
+    VDivider,
+    VHover,
+    VOverlay,
+    VToolbar,
   },
 });
 

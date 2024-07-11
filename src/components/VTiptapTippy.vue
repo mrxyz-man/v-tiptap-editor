@@ -1,5 +1,6 @@
 <script>
 import tippy from 'tippy.js';
+import { posToDOMRect } from '@tiptap/core';
 
 export default {
   props: {
@@ -22,8 +23,6 @@ export default {
     };
   },
   mounted() {
-    const { editor } = this;
-
     this.tippy = tippy(
       this.$parent.$refs.input.$el,
       {
@@ -33,26 +32,13 @@ export default {
         trigger: 'manual',
         appendTo: this.$el.closest('.v-tiptap-editor'),
         onHide: this.onHide,
+        onShow: this.onShow,
 
         onClickOutside: () => {
           this.editor.chain().focus().blur().run();
         },
       },
     );
-
-    editor.on('transaction', ({ editor: e }) => {
-      if (this.state) {
-        const headPosition = e.view.coordsAtPos(e.view.state.selection.$head.pos);
-
-        this.tippy.setProps({
-          getReferenceClientRect: () => ({
-            top: headPosition.top,
-            left: headPosition.left - (this.$el.clientWidth / 2),
-            width: this.$el.clientWidth,
-          }),
-        });
-      }
-    });
   },
   watch: {
     state(val) {
@@ -65,6 +51,21 @@ export default {
   methods: {
     onHide() {
       this.$emit('update:state', false);
+    },
+    onShow(instance) {
+      this.$nextTick(() => {
+        const { view } = this.editor;
+        const { selection } = view.state;
+        const { from, to } = selection;
+
+        if (this.state) {
+          instance.setProps({
+            getReferenceClientRect: instance.getReferenceClientRect || (() => {
+              return posToDOMRect(view, from, to);
+            }),
+          });
+        }
+      });
     },
   },
   render(h) {

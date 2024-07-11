@@ -23,22 +23,30 @@ export default {
       type: Object,
       required: true,
     },
+    nodeName: {
+      type: String,
+      required: true,
+    },
+    attrKey: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
       initialURL: '',
-      editable: this.editor.isActive('link') || false,
-      url: this.editor.getAttributes('link').href || this.initialURL,
+      editable: this.editor.isActive(this.nodeName) || false,
+      url: this.editor.getAttributes(this.nodeName)[this.attrKey] || this.initialURL,
     };
   },
   methods: {
     onSaveLink() {
       this.$emit('link:save', this.url);
-      this.editable = this.editor.isActive('link');
+      this.editable = this.editor.isActive(this.nodeName);
     },
     onCloseLink() {
-      if (this.editor.isActive('link')) {
-        this.editable = this.editor.isActive('link');
+      if (this.editor.isActive(this.nodeName)) {
+        this.editable = this.editor.isActive(this.nodeName);
         return;
       }
 

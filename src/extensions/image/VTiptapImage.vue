@@ -3,8 +3,7 @@
       v-bind="$props"
     )
       v-img.mb-2(
-        :src="node.attrs.src"
-        :alt="node.attrs.alt"
+        v-bind="node.attrs"
         data-drag-handle
       )
 </template>

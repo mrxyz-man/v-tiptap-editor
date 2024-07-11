@@ -10,6 +10,8 @@ export default LinkNative.extend({
     const linkToolbar = editor.options.$createElement(LinkToolbar, {
       props: {
         editor,
+        nodeName: this.name,
+        attrKey: 'href',
       },
       on: {
         'link:close': () => {

@@ -19,6 +19,7 @@
             v-if="iconOptions"
             v-bind="iconOptions.props"
             v-on="iconOptions.on"
+            small
           ) {{ iconOptions.content }}
 
       v-list
