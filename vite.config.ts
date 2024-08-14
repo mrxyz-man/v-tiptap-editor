@@ -23,7 +23,6 @@ export default defineConfig({
       entry: {
         ...extsEntries,
         index: resolve(__dirname, 'lib/index.js'),
-        extensions: resolve(__dirname, 'lib/extensions.js'),
       },
       name: 'VTiptapEditor',
     },
