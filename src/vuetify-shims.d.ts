@@ -1,7 +1,7 @@
-import { Vuetify } from 'vuetify/types';
+// import { Vuetify } from 'vuetify/types';
 
-declare module 'vue/types/options' {
-  interface ComponentOptions {
-    vuetify?: Vuetify;
-  }
-}
+// declare module 'vue/types/options' {
+//   interface ComponentOptions {
+//     vuetify?: Vuetify;
+//   }
+// }

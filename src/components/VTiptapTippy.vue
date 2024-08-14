@@ -60,9 +60,9 @@ export default {
 
         if (this.state) {
           instance.setProps({
-            getReferenceClientRect: instance.getReferenceClientRect || (() => {
-              return posToDOMRect(view, from, to);
-            }),
+            getReferenceClientRect: instance.getReferenceClientRect || (() => (
+              posToDOMRect(view, from, to)
+            )),
           });
         }
       });

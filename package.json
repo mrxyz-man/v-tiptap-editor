@@ -26,12 +26,15 @@
     "@tiptap/extension-link": "^2.4.0",
     "@tiptap/extension-paragraph": "^2.3.0",
     "@tiptap/extension-text": "^2.3.0",
+    "@tiptap/extension-text-align": "^2.6.2",
     "@tiptap/extension-underline": "^2.3.0",
     "@tiptap/pm": "^2.2.4",
     "@tiptap/vue-2": "^2.2.4",
-    "tippy.js": "^6.3.7",
-    "vue": "^2.7.7",
-    "vuetify": "^2.7.2"
+    "tippy.js": "^6.3.7"
+  },
+  "peerDependencies": {
+    "vue": "^2.x",
+    "vuetify": "^2.x"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.1",

@@ -50,6 +50,7 @@ export default {
             return {
               text: true,
               depressed: true,
+              disabled: true,
               get value() {
                 return name;
               },
@@ -69,7 +70,7 @@ export default {
 
             return {
               text: true,
-              debugger: true,
+              disabled: true,
               get value() {
                 return name;
               },
@@ -95,7 +96,6 @@ export default {
 
             return {
               text: true,
-              debugger: true,
               get value() {
                 return name;
               },

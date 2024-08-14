@@ -64,6 +64,11 @@ const DEFAULT_TOOLBAR_CONFIG = {
       exts: ['link', 'image'],
       render: inline,
     },
+    '|',
+    {
+      exts: ['textAlign'],
+      render: btnToggle,
+    },
   ],
 };
 
@@ -79,7 +84,7 @@ TODO LIST:
 [ ] - Add support save default styles by props (enabled/disabled);
 */
 export default Vue.extend({
-  name: 'v-tiptap-editor',
+  name: 'VTiptapEditor',
   mixins: [VTextField],
   props: {
     extensions: {

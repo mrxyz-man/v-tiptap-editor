@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'v-tiptap-toolbar',
+  name: 'VTiptapToolbar',
   props: {
     editor: {
       type: Object,

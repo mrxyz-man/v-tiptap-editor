@@ -10,38 +10,38 @@
               filled
               label="Filled"
             )
-            v-tiptap-editor(
-              label="Solo"
-              solo
-            )
-            v-tiptap-editor(
-              label="Outlined"
-              outlined
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
-            v-tiptap-editor(
-              label="Default"
-            )
+            //- v-tiptap-editor(
+            //-   label="Solo"
+            //-   solo
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Outlined"
+            //-   outlined
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
+            //- v-tiptap-editor(
+            //-   label="Default"
+            //- )
 </template>
 
 <script>
@@ -55,6 +55,7 @@ import {
   History,
   Italic,
   Image,
+  TextAlign,
 } from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
@@ -76,6 +77,7 @@ export default {
         Heading,
         Link,
         Image,
+        TextAlign,
       ],
       // toolbar: {
       //   items: [

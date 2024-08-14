@@ -1,4 +1,4 @@
-import { Plugin, PluginKey } from '@tiptap/pm/state';
+// import { Plugin, PluginKey } from '@tiptap/pm/state';
 import { Image as ImageNative } from '@tiptap/extension-image';
 import { VueNodeViewRenderer } from '@tiptap/vue-2';
 
