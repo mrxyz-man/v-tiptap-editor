@@ -1,6 +1,6 @@
 {
   "name": "v-tiptap-editor",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "files": [
     "dist"
@@ -12,9 +12,9 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./extensions": {
-      "import": "./dist/extensions/index.js",
-      "require": "./dist/extensions/index.cjs"
+    "./*": {
+      "import": "./dist/*/index.js",
+      "require": "./dist/*/index.cjs"
     }
   },
   "scripts": {
