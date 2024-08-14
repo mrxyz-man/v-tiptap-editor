@@ -8,12 +8,12 @@ import Components from 'unplugin-vue-components/vite';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
-const exts = glob.sync(['./src/{extensions,components,renders,utils,assets}/**/*.{vue,js,scss}'])
+const files = glob.sync(['./src/{components,renders,utils,assets}/**/*.{vue,js,scss}'])
   .map(file => {
     const key = file.match(/(?<=\.\/src\/).*(?=\.js|\.vue|\.scss)/) || [''];
     return [key[0], file];
   });
-const extsEntries = Object.fromEntries(exts);
+const filesEntries = Object.fromEntries(files);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,8 +21,9 @@ export default defineConfig({
     target: 'es2015',
     lib: {
       entry: {
-        ...extsEntries,
+        ...filesEntries,
         index: resolve(__dirname, 'lib/index.js'),
+        extensions: resolve(__dirname, 'lib/extensions.js'),
       },
       name: 'VTiptapEditor',
     },
