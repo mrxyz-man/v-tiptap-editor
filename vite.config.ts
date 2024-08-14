@@ -1,3 +1,4 @@
+import glob from 'fast-glob';
 import { fileURLToPath, URL } from 'node:url';
 import { resolve } from 'path';
 
@@ -6,24 +7,35 @@ import vue2 from '@vitejs/plugin-vue2';
 import Components from 'unplugin-vue-components/vite';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
+import { Console } from 'node:console';
+
+const exts = glob.sync(['./src/{extensions,components,renders,utils,assets}/**/*.{vue,js,scss}'])
+  .map(file => {
+    const key = file.match(/(?<=\.\/src\/).*(?=\.js|\.vue|\.scss)/) || [''];
+    return [key[0], file];
+  });
+const extsEntries = Object.fromEntries(exts);
 
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
     target: 'es2015',
-    cssCodeSplit: false,
     lib: {
-      entry: resolve(__dirname, 'lib/index.js'),
+      entry: {
+        ...extsEntries,
+        index: resolve(__dirname, 'lib/index.js'),
+      },
       name: 'VTiptapEditor',
-      fileName: 'index',
     },
     copyPublicDir: false,
     rollupOptions: {
       external: [
         'vue',
+        /^@tiptap($|\/)/,
         /^vuetify($|\/)/,
       ],
       output: {
+        exports: 'named',
         globals: {
           vue: 'Vue',
           vuetify: 'Vuetify',
@@ -39,7 +51,14 @@ export default defineConfig({
     Components({
       resolvers: [VuetifyResolver()],
     }),
-    cssInjectedByJsPlugin(),
+    cssInjectedByJsPlugin({
+      jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
+        return (
+          outputChunk.fileName == 'components/VTiptapEditor.js'
+          || outputChunk.fileName == 'components/VTiptapEditor.cjs'
+        );
+      },
+    }),
   ],
   resolve: {
     alias: {

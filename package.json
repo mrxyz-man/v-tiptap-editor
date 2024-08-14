@@ -11,6 +11,10 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
+    },
+    "./extensions/*": {
+      "import": "./dist/extensions/*",
+      "require": "./dist/extensions/*"
     }
   },
   "scripts": {
@@ -62,6 +66,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-vue": "^9.0.0",
     "eslint-plugin-vue-pug": "^0.6.2",
+    "fast-glob": "^3.3.2",
     "npm-run-all": "^4.1.5",
     "pug": "^3.0.2",
     "sass": "~1.32.6",
