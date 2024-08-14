@@ -7,7 +7,6 @@ import vue2 from '@vitejs/plugin-vue2';
 import Components from 'unplugin-vue-components/vite';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
-import { Console } from 'node:console';
 
 const exts = glob.sync(['./src/{extensions,components,renders,utils,assets}/**/*.{vue,js,scss}'])
   .map(file => {
