@@ -9,14 +9,12 @@
 </template>
 
 <script>
-import VImg from 'vuetify/lib/components/VImg/VImg';
 import VTiptapNodeViewWrapper from '@/components/VTiptapNodeViewWrapper.vue';
 import { nodeViewProps } from '@tiptap/vue-2';
 
 export default {
   components: {
     VTiptapNodeViewWrapper,
-    VImg,
   },
   props: nodeViewProps,
 };

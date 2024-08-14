@@ -44,26 +44,8 @@
 </template>
 
 <script>
-import VIcon from 'vuetify/lib/components/VIcon/VIcon';
-import {
-  VList,
-  VListItem,
-  VListItemContent,
-  VListItemTitle,
-  VListItemActionText,
-} from 'vuetify/lib/components/VList';
-import VTextField from 'vuetify/lib/components/VTextField/VTextField';
 
 export default {
-  components: {
-    VIcon,
-    VList,
-    VListItem,
-    VListItemContent,
-    VListItemTitle,
-    VListItemActionText,
-    VTextField,
-  },
   props: {
     solo: {
       type: Boolean,

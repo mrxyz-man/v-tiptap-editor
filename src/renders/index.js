@@ -1,10 +1,16 @@
+import VIcon from 'vuetify/lib/components/VIcon/VIcon';
+import VBtn from 'vuetify/lib/components/VBtn/VBtn';
+import VBtnToggle from 'vuetify/lib/components/VBtnToggle/VBtnToggle';
+import VSelect from 'vuetify/lib/components/VSelect/VSelect';
+import VDivider from 'vuetify/lib/components/VDivider/VDivider';
+
 export const btn = ({
   item,
   props,
   editor,
   options,
   $createElement,
-}) => $createElement('v-btn', {
+}) => $createElement(VBtn, {
   attrs: {
     tabindex: '-1',
   },
@@ -20,7 +26,7 @@ export const btn = ({
   },
   ...options,
 }, [
-  $createElement('v-icon', {
+  $createElement(VIcon, {
     props: {
       small: true,
     },
@@ -31,7 +37,7 @@ export const btnToggle = ({
   editor,
   extensions,
   $createElement,
-}) => $createElement('v-btn-toggle', {
+}) => $createElement(VBtnToggle, {
   props: {
     multiple: true,
     borderless: true,
@@ -51,7 +57,7 @@ export const select = ({
   editor,
   extensions,
   $createElement,
-}) => $createElement('v-select', {
+}) => $createElement(VSelect, {
   attrs: {
     tabindex: '-1',
   },
@@ -102,7 +108,7 @@ export const inline = ({
 
 export const divider = ({
   $createElement,
-}) => $createElement('v-divider', {
+}) => $createElement(VDivider, {
   class: 'my-1 mx-1',
   props: {
     vertical: true,

@@ -36,28 +36,7 @@
 </template>
 
 <script>
-import VBtn from 'vuetify/lib/components/VBtn/VBtn';
-import VIcon from 'vuetify/lib/components/VIcon/VIcon';
-import VMenu from 'vuetify/lib/components/VMenu/VMenu';
-import {
-  VList,
-  VListItem,
-  VListItemTitle,
-  VListItemAction,
-  VListItemContent,
-} from 'vuetify/lib/components/VList';
-
 export default {
-  components: {
-    VBtn,
-    VIcon,
-    VMenu,
-    VList,
-    VListItem,
-    VListItemTitle,
-    VListItemAction,
-    VListItemContent,
-  },
   props: {
     editor: {
       type: Object,

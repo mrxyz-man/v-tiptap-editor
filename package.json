@@ -1,6 +1,18 @@
 {
   "name": "v-tiptap-editor",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
@@ -55,6 +67,7 @@
     "sass": "~1.32.6",
     "terser": "^5.14.2",
     "typescript": "~4.7.4",
+    "unplugin-vue-components": "^0.27.4",
     "vite": "^3.0.2",
     "vue-tsc": "^0.38.8"
   }
