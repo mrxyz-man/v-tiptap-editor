@@ -1,0 +1,60 @@
+{
+  "name": "v-tiptap-editor",
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@tiptap/core": "^2.4.0",
+    "@tiptap/extension-bold": "^2.3.0",
+    "@tiptap/extension-bubble-menu": "^2.4.0",
+    "@tiptap/extension-document": "^2.3.0",
+    "@tiptap/extension-dropcursor": "^2.4.0",
+    "@tiptap/extension-gapcursor": "^2.4.0",
+    "@tiptap/extension-hard-break": "^2.4.0",
+    "@tiptap/extension-heading": "^2.3.0",
+    "@tiptap/extension-highlight": "^2.4.0",
+    "@tiptap/extension-history": "^2.4.0",
+    "@tiptap/extension-image": "^2.4.0",
+    "@tiptap/extension-italic": "^2.4.0",
+    "@tiptap/extension-link": "^2.4.0",
+    "@tiptap/extension-paragraph": "^2.3.0",
+    "@tiptap/extension-text": "^2.3.0",
+    "@tiptap/extension-text-align": "^2.6.2",
+    "@tiptap/extension-underline": "^2.3.0",
+    "@tiptap/pm": "^2.2.4",
+    "@tiptap/vue-2": "^2.2.4",
+    "tippy.js": "^6.3.7"
+  },
+  "peerDependencies": {
+    "vue": "^2.x",
+    "vuetify": "^2.x"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^2.0.0",
+    "@vitejs/plugin-vue2": "^1.1.2",
+    "fast-glob": "^3.3.2",
+    "pug": "^3.0.2",
+    "sass": "~1.32.6",
+    "terser": "^5.14.2",
+    "unplugin-vue-components": "^0.27.4",
+    "vite": "^3.0.2",
+    "vite-plugin-css-injected-by-js": "^3.5.1",
+    "eslint-config-custom": "*"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "repo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "clean": "rm -rf ./node_modules && rm -rf package-lock.json",
+    "beta:dev": "npm run dev -- --filter=beta",
+    "v-tiptap-editor:dev": "npm run dev -- --filter=v-tiptap-editor",
+    "v-tiptap-editor:build": "npm run build -- --filter=v-tiptap-editor",
+    "v-tiptap-editor:lint": "npm run lint -- --filter=v-tiptap-editor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrxyz-man/v-tiptap-editor.git"
+  },
+  "author": "MRXYZ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrxyz-man/v-tiptap-editor/issues"
+  },
+  "homepage": "https://github.com/mrxyz-man/v-tiptap-editor#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@9.8.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^8.48.0",
+    "eslint-config-custom": "file:packages/eslint-config-custom",
+    "turbo": "^2.0.9"
+  }
+}

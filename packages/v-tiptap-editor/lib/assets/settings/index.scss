@@ -1,0 +1,134 @@
+@import './_variables.scss';
+
+@include theme(v-tiptap-field) using ($material) {
+  &--is-disabled {
+    .v-tiptap__input {
+      color: map-deep-get($material, 'text', 'disabled');
+    }
+  }
+
+  .v-tiptap__input {
+    color: map-deep-get($material, 'text', 'primary');
+
+    &::placeholder {
+      color: map-deep-get($material, 'text', 'disabled');
+    }
+  }
+
+  &.v-text-field--solo-inverted
+    &.v-input--is-focused
+      .v-tiptap__input {
+        color: map-deep-get($material, 'inputs', 'solo-inverted-focused-text');
+
+        &::placeholder {
+          color: map-deep-get($material, 'inputs', 'solo-inverted-focused-placeholder');
+        }
+      }
+}
+
+.v-tiptap-toolbar {
+  .v-toolbar__content {
+    padding: 0;
+  }
+}
+
+.v-tiptap-editor {
+  .tiptap {
+    > :last-child {
+      margin-bottom: 1.4em;
+    }
+  }
+
+  .selection {
+    color: HighlightText;
+    background-color: #3862cd;
+    border-top: 5.4px solid #3862cd;
+    border-bottom: 5.4px solid #3862cd;
+  }
+
+  .v-tiptap-field {
+    .v-tiptap__input {
+      align-self: stretch;
+      flex: 1 1 auto;
+      line-height: $tiptap-editor-line-height;
+      max-width: 100%;
+      min-height: $tiptap-editor-min-height;
+      outline: none;
+      padding: $tiptap-editor-padding;
+      word-break: break-word;
+      width: 100%;
+    }
+
+    .v-text-field__prefix,
+    .v-text-field__suffix {
+      padding-top: $tiptap-editor-prefix-padding-top;
+      align-self: start;
+    }
+
+    &.v-text-field--box,
+    &.v-text-field--enclosed {
+      .v-text-field__prefix,
+      .v-tiptap__input {
+        margin-top: $tiptap-editor-box-enclosed-prefix-margin-top;
+      }
+
+      &.v-text-field--single-line,
+      &.v-text-field--outlined {
+        &:not(.v-input--dense) {
+          .v-text-field__prefix,
+          .v-text-field__suffix,
+          .v-tiptap__input {
+            margin-top: $tiptap-editor-box-enclosed-single-outlined-margin-top;
+          }
+
+          .v-label {
+            top: $tiptap-editor-box-enclosed-single-outlined-label-top;
+          }
+        }
+
+        &.v-input--dense {
+          .v-text-field__prefix,
+          .v-text-field__suffix,
+          .v-tiptap__input {
+            margin-top: $tiptap-editor-dense-box-enclosed-single-outlined-margin-top;
+          }
+
+          .v-input__prepend-inner,
+          .v-input__prepend-outer,
+          .v-input__append-inner,
+          .v-input__append-outer {
+            align-self: flex-start;
+            margin-top: $tiptap-editor-dense-append-prepend-margin-top;
+          }
+        }
+      }
+    }
+
+    &.v-text-field--solo {
+      align-items: flex-start;
+
+      .v-input__control
+        .v-tiptap__input {
+          caret-color: auto;
+        }
+
+      // Essentially revert styles
+      // applied by v-text-field
+      .v-input__prepend-inner,
+      .v-input__prepend-outer,
+      .v-input__append-inner,
+      .v-input__append-outer {
+        align-self: flex-start;
+        margin-top: $tiptap-editor-solo-append-prepend-margin-top;
+      }
+    }
+
+
+    &.v-text-field--enclosed {
+      .v-text-field__slot {
+        width: 100%;
+        align-self: stretch;
+      }
+    }
+  }
+}
