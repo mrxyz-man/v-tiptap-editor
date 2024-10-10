@@ -6,9 +6,8 @@ import { defineConfig } from 'vite';
 import vue2 from '@vitejs/plugin-vue2';
 import Components from 'unplugin-vue-components/vite';
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
-const files = glob.sync(['./lib/{extensions,components,renders,utils,assets}/**/*.{vue,js,scss}'])
+const files = glob.sync(['./lib/{extensions,components,renders,utils}/**/*.{vue,js,scss}'])
   .map((file) => {
     const key = file.match(/(?<=\.\/lib\/).*(?=\.js|\.vue|\.scss)/) || [''];
     return [key[0], file];
@@ -17,6 +16,7 @@ const filesEntries = Object.fromEntries(files);
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  publicDir: './lib/assets',
   build: {
     target: 'es2015',
     lib: {
@@ -24,9 +24,8 @@ export default defineConfig({
         ...filesEntries,
         index: resolve(__dirname, 'lib/index.js'),
       },
-      name: 'VTiptapEditor',
+      name: 'TiptapEditor',
     },
-    copyPublicDir: false,
     rollupOptions: {
       external: [
         'vue',
@@ -47,16 +46,8 @@ export default defineConfig({
   },
   plugins: [
     vue2(),
-    // Components({
-    //   resolvers: [VuetifyResolver()],
-    // }),
-    cssInjectedByJsPlugin({
-      jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
-        return (
-          outputChunk.fileName === 'components/VTiptapEditor.js'
-          || outputChunk.fileName === 'components/VTiptapEditor.cjs'
-        );
-      },
+    Components({
+      resolvers: [VuetifyResolver()],
     }),
   ],
   resolve: {

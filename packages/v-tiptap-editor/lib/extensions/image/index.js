@@ -4,7 +4,7 @@ import { VueNodeViewRenderer } from '@tiptap/vue-2';
 
 import LinkToolbar from '../link/LinkToolbar.vue';
 import ContextMenu from './ContextMenu.vue';
-import VTiptapImage from './VTiptapImage.vue';
+import TiptapImage from './TiptapImage.vue';
 import ImageToolbar from './ImageToolbar.vue';
 
 const ImageBubbleMenuKey = 'image';
@@ -162,6 +162,6 @@ export default ImageNative.extend({
   // },
 
   addNodeView() {
-    return VueNodeViewRenderer(VTiptapImage);
+    return VueNodeViewRenderer(TiptapImage);
   },
 });

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "lib/assets/index.scss"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -11,7 +12,8 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./dist/index.scss": "./dist/index.scss"
   },
   "scripts": {
     "dev": "vite",
@@ -34,6 +36,7 @@
     "@tiptap/extension-italic": "^2.4.0",
     "@tiptap/extension-link": "^2.4.0",
     "@tiptap/extension-paragraph": "^2.3.0",
+    "@tiptap/extension-placeholder": "^2.6.4",
     "@tiptap/extension-text": "^2.3.0",
     "@tiptap/extension-text-align": "^2.6.2",
     "@tiptap/extension-underline": "^2.3.0",
@@ -48,13 +51,14 @@
   "devDependencies": {
     "@vitejs/plugin-legacy": "^2.0.0",
     "@vitejs/plugin-vue2": "^1.1.2",
+    "eslint-config-custom": "*",
     "fast-glob": "^3.3.2",
     "pug": "^3.0.2",
+    "rollup-plugin-copy": "^3.5.0",
     "sass": "~1.32.6",
     "terser": "^5.14.2",
     "unplugin-vue-components": "^0.27.4",
     "vite": "^3.0.2",
-    "vite-plugin-css-injected-by-js": "^3.5.1",
-    "eslint-config-custom": "*"
+    "vite-plugin-css-injected-by-js": "^3.5.1"
   }
 }

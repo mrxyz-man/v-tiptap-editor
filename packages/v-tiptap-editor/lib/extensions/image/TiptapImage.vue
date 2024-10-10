@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-tiptap-node-view-wrapper(
+  tiptap-node-view-wrapper(
     v-bind="$props"
   )
     v-img.mb-2(
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import VTiptapNodeViewWrapper from '@/components/VTiptapNodeViewWrapper.vue';
+import TiptapNodeViewWrapper from '@/components/TiptapNodeViewWrapper.vue';
 import { nodeViewProps } from '@tiptap/vue-2';
 
 export default {
   components: {
-    VTiptapNodeViewWrapper,
+    TiptapNodeViewWrapper,
   },
   props: nodeViewProps,
 };

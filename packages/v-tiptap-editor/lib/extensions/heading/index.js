@@ -7,30 +7,33 @@ export default HeadingNative.extend({
       ...this.parent?.(),
       icon: 'mdi-format-header-pound',
 
-      items: [
-        ...[...this.parent?.()?.levels || []].map((level) => ({
-          id: `heading-${level}`,
-          name: `Заголовок ${level}`,
-          icon: `mdi-format-header-${level}`,
-          command: 'toggleHeading',
+      items: {
+        ...[...this.parent?.()?.levels || []].reduce((acc, level) => ({
+          ...acc,
+          [`h${level}`]: {
+            id: `heading-${level}`,
+            name: `Заголовок ${level}`,
+            icon: `mdi-format-header-${level}`,
+            command: 'toggleHeading',
 
-          get value() {
-            return ['heading', { level }];
+            get value() {
+              return ['heading', { level }];
+            },
+
+            callCommand(editor) {
+              const { command } = this;
+
+              editor
+                .chain()
+                ?.[command]({ level })
+                .focus()
+                .run();
+            },
           },
+        }), {}),
+      },
 
-          callCommand(editor) {
-            const { command } = this;
-
-            editor
-              .chain()
-              ?.[command]({ level })
-              .focus()
-              .run();
-          },
-        })),
-      ],
-
-      groupSerializer: (ext) => ext.options.items,
+      groupSerializer: (ext) => Object.values(ext.options.items),
     };
   },
 

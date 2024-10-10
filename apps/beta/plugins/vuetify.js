@@ -13,14 +13,9 @@ export default {
   theme: {
     themes: {
       light: {
-        vk: '#0077FF',
         primary: '#B4162E',
-        primaryLighten: '#FDF9F9',
-        secondaryLighten: '#FDF9F9',
-        special: '#FFE100',
         accent: '#2F2E41',
         secondary: '#374070',
-        accentDarken: '#2B2A3C',
         info: colors.teal,
         warning: colors.amber,
         error: colors.deepOrange,

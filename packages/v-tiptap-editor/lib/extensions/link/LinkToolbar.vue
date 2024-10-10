@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-tiptap-toolbar(:editor="editor")
+  tiptap-toolbar(:editor="editor")
     add-link(
       v-model="url"
       :editable.sync="editable"
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import VTiptapToolbar from '@/components/VTiptapToolbar.vue';
+import TiptapToolbar from '@/components/TiptapToolbar.vue';
 import AddLink from './AddLink.vue';
 
 export default {
   components: {
-    VTiptapToolbar,
+    TiptapToolbar,
     AddLink,
   },
   props: {

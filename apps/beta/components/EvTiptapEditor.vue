@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import 'v-tiptap-editor/dist/index.scss';
 import VTiptapEditor from 'v-tiptap-editor';
 
 export default {

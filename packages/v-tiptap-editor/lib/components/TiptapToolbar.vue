@@ -2,7 +2,7 @@
 import VToolbar from 'vuetify/lib/components/VToolbar/VToolbar';
 
 export default {
-  name: 'VTiptapToolbar',
+  name: 'TiptapToolbar',
   props: {
     editor: {
       type: Object,

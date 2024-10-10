@@ -14,3 +14,4 @@ export { default as Dropcursor } from './dropcursor';
 export { default as Gapcursor } from './gapcursor';
 export { default as Image } from './image';
 export { default as TextAlign } from './text-align';
+export { default as Placeholder } from './placeholder';

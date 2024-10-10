@@ -1,4 +1,4 @@
-import VTiptapEditor from '@/components/VTiptapEditor.vue';
+import TiptapEditor from '@/components/TiptapEditor.vue';
 
 export { default as Text } from '@/extensions/text';
 export { default as Document } from '@/extensions/document';
@@ -16,5 +16,6 @@ export { default as Dropcursor } from '@/extensions/dropcursor';
 export { default as Gapcursor } from '@/extensions/gapcursor';
 export { default as Image } from '@/extensions/image';
 export { default as TextAlign } from '@/extensions/text-align';
+export { default as Placeholder } from '@/extensions/placeholder';
 
-export default VTiptapEditor;
+export default TiptapEditor;

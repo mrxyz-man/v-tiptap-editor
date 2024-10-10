@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-tiptap-toolbar(:editor="editor")
+  tiptap-toolbar(:editor="editor")
     div.d-flex
       v-btn-toggle(
         multiple
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import VTiptapToolbar from '@/components/VTiptapToolbar.vue';
+import TiptapToolbar from '@/components/TiptapToolbar.vue';
 
 const ACTION_TYPES = {
   contain: 1,
@@ -28,7 +28,7 @@ const ACTION_TYPES = {
 
 export default {
   components: {
-    VTiptapToolbar,
+    TiptapToolbar,
   },
   props: {
     editor: {

@@ -13,6 +13,7 @@ import {
   HardBreak,
   BubbleMenu,
   Dropcursor,
+  Placeholder,
 } from '@/extensions';
 import { renderExtensions } from '@/utils';
 
@@ -22,10 +23,8 @@ import {
   btnToggle,
 } from '@/renders';
 
-import VTiptapToolbar from './VTiptapToolbar.vue';
-import VTiptapTippy from './VTiptapTippy.vue';
-
-import '@/assets/settings/index.scss';
+import TiptapToolbar from './TiptapToolbar.vue';
+import TiptapTippy from './TiptapTippy.vue';
 
 const REQUIRED_EXTENSIONS = [
   Text,
@@ -34,6 +33,7 @@ const REQUIRED_EXTENSIONS = [
   HardBreak,
   BubbleMenu,
   Dropcursor,
+  Placeholder,
   Highlight.configure({
     HTMLAttributes: {
       class: 'selection',
@@ -71,7 +71,7 @@ const DEFAULT_TOOLBAR_CONFIG = {
 };
 
 export default Vue.extend({
-  name: 'VTiptapEditor',
+  name: 'TiptapEditor',
   mixins: [VTextField],
   props: {
     extensions: {
@@ -87,7 +87,6 @@ export default Vue.extend({
     return {
       editor: null,
       includedClass: 'v-tiptap-editor--included',
-
       allExtensions: [
         ...this.extensions,
         ...REQUIRED_EXTENSIONS,
@@ -135,6 +134,13 @@ export default Vue.extend({
       this.lazyValue = val;
       this.editor.commands.setContent(val, false);
     },
+    isFocused(val) {
+      const { placeholder, editor } = this;
+
+      if (placeholder) {
+        editor.commands.setPlaceholder(val ? placeholder : '');
+      }
+    },
   },
   methods: {
     genFunctionalToolbar() {
@@ -147,7 +153,7 @@ export default Vue.extend({
 
       const extensions = allExtensions;
 
-      return $createElement(VTiptapToolbar, {
+      return $createElement(TiptapToolbar, {
         ref: 'toolbar',
         props: {
           editor,
@@ -170,7 +176,7 @@ export default Vue.extend({
       const menusList = menusDict ? Object.entries(menusDict) : [];
 
       return menusList.map(([key, { state, content, shouldShow }]) => (
-        $createElement(VTiptapTippy, {
+        $createElement(TiptapTippy, {
           props: {
             editor,
             state,
@@ -199,6 +205,7 @@ export default Vue.extend({
     },
     genInput() {
       const input = VTextField.options.methods.genInput.call(this);
+
       return this.$createElement(EditorContent, {
         ...input.data,
         class: 'v-tiptap__input',

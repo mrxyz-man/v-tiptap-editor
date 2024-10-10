@@ -7,10 +7,10 @@ export default HistoryNative.extend({
       ...this.parent?.(),
       icon: 'mdi-history',
 
-      groupSerializer: (ext) => ext.options.items,
+      groupSerializer: (ext) => Object.values(ext.options.items),
 
-      items: [
-        {
+      items: {
+        undo: {
           id: 'undo',
           icon: 'mdi-undo',
           command: 'undo',
@@ -43,7 +43,7 @@ export default HistoryNative.extend({
             });
           },
         },
-        {
+        redo: {
           id: 'redo',
           icon: 'mdi-redo',
           command: 'redo',
@@ -76,7 +76,7 @@ export default HistoryNative.extend({
             });
           },
         },
-      ],
+      },
     };
   },
 });
