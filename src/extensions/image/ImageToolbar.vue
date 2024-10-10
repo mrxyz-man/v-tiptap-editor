@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import VBtn from 'vuetify/lib/components/VBtn/VBtn';
 import VTiptapToolbar from '@/components/VTiptapToolbar.vue';
 
 const ACTION_TYPES = {
@@ -43,7 +44,7 @@ export default {
           id: ACTION_TYPES.contain,
           name: 'contain',
           icon: 'mdi-image-size-select-actual',
-          component: 'v-btn',
+          component: VBtn,
           get component_attrs() {
             const { name } = this;
 
@@ -64,7 +65,7 @@ export default {
           id: ACTION_TYPES.src,
           name: 'src',
           icon: 'mdi-link-edit',
-          component: 'v-btn',
+          component: VBtn,
           get component_attrs() {
             const { name } = this;
 
@@ -90,7 +91,7 @@ export default {
           id: ACTION_TYPES.remove,
           name: 'remove',
           icon: 'mdi-trash-can',
-          component: 'v-btn',
+          component: VBtn,
           get component_attrs() {
             const { name } = this;
 

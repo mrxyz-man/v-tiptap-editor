@@ -9,7 +9,7 @@ import { VuetifyResolver } from 'unplugin-vue-components/resolvers';
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 const files = glob.sync(['./src/{extensions,components,renders,utils,assets}/**/*.{vue,js,scss}'])
-  .map(file => {
+  .map((file) => {
     const key = file.match(/(?<=\.\/src\/).*(?=\.js|\.vue|\.scss)/) || [''];
     return [key[0], file];
   });

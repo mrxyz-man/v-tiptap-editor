@@ -17,11 +17,10 @@ export default {
   props: nodeViewProps,
   computed: {
     attrs() {
-      console.log(this.$props);
       return {
         ...this.node.attrs,
         ...this.extension.options.HTMLAttributes,
-      }
+      };
     },
   },
 };
