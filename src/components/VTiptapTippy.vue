@@ -16,6 +16,10 @@ export default {
       type: Object,
       required: true,
     },
+    options: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -26,6 +30,7 @@ export default {
     this.tippy = tippy(
       this.$parent.$refs.input.$el,
       {
+        ...this.options,
         content: this.$el,
         allowHTML: true,
         interactive: true,

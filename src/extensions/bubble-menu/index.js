@@ -11,7 +11,12 @@ export default Extension.create({
 
   addCommands() {
     return {
-      createBubbleMenu: ({ key, shouldShow, content }) => ({ editor }) => {
+      createBubbleMenu: ({
+        key,
+        shouldShow,
+        content,
+        options,
+      }) => ({ editor }) => {
         const { element } = editor.options;
         const { id } = element;
         const { storage } = this;
@@ -21,6 +26,7 @@ export default Extension.create({
         }
 
         storage.editors[id][key] = {
+          options,
           content,
           bufferState: false,
 

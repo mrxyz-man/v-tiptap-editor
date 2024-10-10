@@ -184,14 +184,9 @@ export default Vue.extend({
       const menusDict = editor.storage?.bubbleMenu?.editors?.[element.id];
       const menusList = menusDict ? Object.entries(menusDict) : [];
 
-      return menusList.map(([key, { state, content, shouldShow }]) => (
+      return menusList.map(([key, props]) => (
         $createElement(VTiptapTippy, {
-          props: {
-            editor,
-            state,
-            content,
-            shouldShow,
-          },
+          props: { editor, ...props },
           on: {
             'update:state': (val) => {
               this.editor.commands.updateBubbleMenu({
