@@ -18,6 +18,9 @@ export default Mention.extend({
             onStart: ({ editor }) => {
               editor.chain().showBubbleMenu({ key: BubbleMenuKey });
             },
+            onExit({ editor }) {
+              editor.commands.hideBubbleMenu({ key: BubbleMenuKey });
+            },
           };
         },
       },
