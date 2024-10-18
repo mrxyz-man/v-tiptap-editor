@@ -13,10 +13,14 @@ export default {
       default: false,
     },
     content: {
-      type: Object,
+      type: Function,
       required: true,
     },
     options: {
+      type: Object,
+      default: () => ({}),
+    },
+    positions: {
       type: Object,
       default: () => ({}),
     },
@@ -30,12 +34,24 @@ export default {
     this.tippy = tippy(
       this.$parent.$refs.input.$el,
       {
+        maxWidth: 'none',
         ...this.options,
         content: this.$el,
         allowHTML: true,
         interactive: true,
         trigger: 'manual',
         appendTo: this.$el.closest('.v-tiptap-editor'),
+        hideOnClick: false,
+        popperOptions: {
+          modifiers: [
+            {
+              name: 'preventOverflow',
+              options: {
+                boundary: this.$parent.$refs.input.$el,
+              },
+            },
+          ],
+        },
         onHide: this.onHide,
         onShow: this.onShow,
 
@@ -51,6 +67,17 @@ export default {
         if (val) this.tippy.show();
         else this.tippy.hide();
       });
+    },
+    positions: {
+      handler({ from, to }) {
+        const { view } = this.editor;
+        this.tippy.setProps({
+          getReferenceClientRect: this.tippy.getReferenceClientRect || (() => (
+            posToDOMRect(view, from, to)
+          )),
+        });
+      },
+      deep: true,
     },
   },
   methods: {
@@ -99,7 +126,7 @@ export default {
             }
           },
         },
-      }, [content]);
+      }, [content()]);
     }
 
     return h('div');

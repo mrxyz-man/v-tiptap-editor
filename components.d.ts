@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Test: typeof import('./src/components/Test.vue')['default']
     VApp: typeof import('vuetify/lib')['VApp']
     VBtn: typeof import('vuetify/lib')['VBtn']
     VBtnToggle: typeof import('vuetify/lib')['VBtnToggle']

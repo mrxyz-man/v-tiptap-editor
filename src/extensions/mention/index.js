@@ -11,8 +11,13 @@ export default Mention.extend({
   addOptions() {
     return {
       ...this.parent?.(),
+
       suggestion: {
         ...this.parent?.().suggestion,
+
+        itemValue: 'id',
+        itemText: 'label',
+
         render() {
           return {
             onStart: ({ editor }) => {
@@ -28,21 +33,22 @@ export default Mention.extend({
   },
 
   onCreate({ editor }) {
+    const { options } = this;
     const Toolbar = editor.options.$createElement(MentionToolbar, {
       props: {
         editor,
-        nodeName: this.name,
-        attrKey: 'data-id',
-        items: this.options.suggestion.items(),
-        command: (props) => {
+        items: options.suggestion.items(),
+        itemText: options.suggestion.itemText,
+        itemValue: options.suggestion.itemValue,
+        command: (item) => {
           const { from, to } = editor.view.state.selection;
-          const { length } = this.options.suggestion.char;
+          const { length } = options.suggestion.char;
           const range = {
             to,
             from: from === to ? (from - length) : from,
           };
-          this.options.suggestion.command({
-            editor, range, props,
+          options.suggestion.command({
+            editor, range, props: item,
           });
           editor.commands.hideBubbleMenu({ key: BubbleMenuKey });
         },
@@ -51,7 +57,7 @@ export default Mention.extend({
 
     editor.commands.createBubbleMenu({
       key: BubbleMenuKey,
-      content: Toolbar,
+      content: () => Toolbar,
       options: { placement: 'bottom' },
       shouldShow: () => editor.isActive('mention'),
     });
@@ -60,5 +66,4 @@ export default Mention.extend({
   addNodeView() {
     return VueNodeViewRenderer(VTiptapMention);
   },
-
 });

@@ -1,13 +1,8 @@
+import { set } from 'vue';
 import { Extension } from '@tiptap/core';
 
 export default Extension.create({
   name: 'bubbleMenu',
-
-  addStorage() {
-    return {
-      editors: {},
-    };
-  },
 
   addCommands() {
     return {
@@ -17,43 +12,63 @@ export default Extension.create({
         content,
         options,
       }) => ({ editor }) => {
-        const { element } = editor.options;
-        const { id } = element;
-        const { storage } = this;
+        editor.setOptions({
+          bubbleMenus: {
+            ...editor.options.bubbleMenus,
+            [key]: {
+              options,
+              content,
+              positions: {},
+              bufferState: false,
+              bufferPriority: null,
 
-        if (!storage.editors[id]) {
-          storage.editors[id] = {};
-        }
+              get priority() {
+                return this.bufferPriority;
+              },
+              set priority(val) {
+                this.bufferPriority = val;
+              },
 
-        storage.editors[id][key] = {
-          options,
-          content,
-          bufferState: false,
-
-          get state() {
-            return this.bufferState;
+              get state() {
+                return this.bufferState;
+              },
+              set state(val) {
+                this.bufferState = val;
+              },
+            },
           },
-          set state(val) {
-            this.bufferState = val;
-          },
-        };
+        });
 
-        editor.on('selectionUpdate', () => {
-          if (shouldShow?.({ editor })) {
+        editor.on('selectionUpdate', ({ editor: e }) => {
+          const { from, to } = e.state.selection;
+
+          if (shouldShow?.({ editor: e })) {
             editor.commands.updateBubbleMenu({
-              key, state: true,
+              key,
+              state: true,
+              positions: {
+                from, to,
+              },
             });
+            return;
           }
+
+          editor.commands.hideBubbleMenu({ key });
         });
       },
-      updateBubbleMenu: ({ key, state }) => ({ editor }) => {
-        const { element } = editor.options;
-        const { id } = element;
+      updateBubbleMenu: ({ key, state, positions }) => ({ editor }) => {
+        const bubbleMenus = { ...editor.options.bubbleMenus };
+        const activeMenus = Object.values(bubbleMenus).filter((i) => i.state);
+        const priority = state && activeMenus.length ? activeMenus.length : null;
 
-        this.storage.editors[id][key] = {
-          ...this.storage.editors[id][key],
+        set(bubbleMenus, key, {
+          ...bubbleMenus[key],
+          positions,
+          priority,
           state,
-        };
+        });
+
+        editor.setOptions({ bubbleMenus });
       },
       showBubbleMenu: ({ key }) => ({ editor }) => {
         editor.commands.updateBubbleMenu({ key, state: true });

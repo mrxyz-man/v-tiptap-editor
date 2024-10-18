@@ -43,7 +43,7 @@ export default LinkNative.extend({
 
     editor.commands.createBubbleMenu({
       key: BubbleMenuKey,
-      content: linkToolbar,
+      content: () => linkToolbar,
       shouldShow: () => editor.isActive('link'),
     });
   },

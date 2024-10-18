@@ -45,13 +45,13 @@ export default ImageNative.extend({
 
     editor.commands.createBubbleMenu({
       key: AddURLBubbleMenuKey,
-      content: linkToolbar,
+      content: () => linkToolbar,
       shouldShow: () => false,
     });
 
     editor.commands.createBubbleMenu({
       key: ImageBubbleMenuKey,
-      content: imageToolbar,
+      content: () => imageToolbar,
       shouldShow: () => editor.isActive('image'),
     });
   },

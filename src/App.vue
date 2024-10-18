@@ -85,7 +85,12 @@ export default {
             label: true,
           },
           suggestion: {
-            items: () => ['foo', 'bar', 'baz', 'pou'],
+            itemValue: 'code',
+            itemText: 'text',
+            items: () => [{
+              code: 1,
+              text: 'Foo',
+            }],
             char: '#',
           },
         }),
@@ -104,10 +109,7 @@ export default {
       //   ],
       // },
       tiptapVal1: `
-        <h3><strong>Render HTML</strong></h3>
-        <p>With the <strong>renderHTML</strong> function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the <strong>Bold</strong> extension:</p>
-        <p>Mentions: <span data-type="mention" data-id="foo"></span> <span data-type="mention" data-id="foo"></span></p>
-        <img src="https://ckeditor.com/assets/images/ckdemo/editor-types/volcano_2x.jpg" />
+        <h3 class="text-h3" style="padding-top: .4em; margin-bottom: .4em"><strong>Render HTML</strong></h3><p style="padding-top: .2em; margin-bottom: .8em">With the <strong>renderHTML</strong> function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the <strong>Bold</strong> extension:</p><p style="padding-top: .2em; margin-bottom: .8em">Mentions: <span color="primary" label="true" data-type="mention" data-id="1" data-label="Foo">#Foo</span> </p><img src="https://ckeditor.com/assets/images/ckdemo/editor-types/volcano_2x.jpg">
       `,
     };
   },

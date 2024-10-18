@@ -95,6 +95,10 @@ export default Vue.extend({
       type: Object,
       default: () => DEFAULT_TOOLBAR_CONFIG,
     },
+    balloon: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -117,15 +121,24 @@ export default Vue.extend({
           style: 'width: inherit; outline: none; height: 100%;',
         },
       },
+      bubbleMenus: {},
       extensions: this.allExtensions,
       content: this.value,
       onFocus: ({ event: e }) => {
         this.onFocus(e);
       },
-      // onBlur: ({ event: e }) => {
-      // },
       onUpdate: ({ editor }) => {
         this.internalValue = editor.getText() ? editor.getHTML() : '';
+      },
+      onCreate: ({ editor }) => {
+        editor.commands.createBubbleMenu({
+          key: 'toolbarBubbleMenu',
+          content: this.genFunctionalToolbar,
+          shouldShow: () => {
+            const { selection } = editor.state;
+            return !selection.empty && !selection?.node;
+          },
+        });
       },
       $createElement: this.$createElement,
     });
@@ -139,6 +152,9 @@ export default Vue.extend({
     },
     noResizeHandle() {
       return this.noResize || this.autoGrow;
+    },
+    bubbleMenus() {
+      return this.editor.options.bubbleMenus;
     },
   },
   watch: {
@@ -163,7 +179,6 @@ export default Vue.extend({
       const extensions = allExtensions;
 
       return $createElement(VTiptapToolbar, {
-        ref: 'toolbar',
         props: {
           editor,
           flat: true,
@@ -179,10 +194,8 @@ export default Vue.extend({
       ]);
     },
     genBubbleMenus() {
-      const { editor, $createElement } = this;
-      const { element } = editor.options;
-      const menusDict = editor.storage?.bubbleMenu?.editors?.[element.id];
-      const menusList = menusDict ? Object.entries(menusDict) : [];
+      const { editor, $createElement, bubbleMenus } = this;
+      const menusList = Object.entries(bubbleMenus);
 
       return menusList.map(([key, props]) => (
         $createElement(VTiptapTippy, {
@@ -283,7 +296,7 @@ export default Vue.extend({
       staticClass: 'v-tiptap-editor',
     }, [
       ...this.genBubbleMenus(),
-      this.genFunctionalToolbar(),
+      !this.balloon ? this.genFunctionalToolbar() : null,
       this.$createElement('div', this.setTextColor(this.validationState, {
         staticClass: 'v-input',
         class: this.classes,

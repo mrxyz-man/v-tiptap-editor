@@ -4,7 +4,7 @@
   )
     v-chip(
       v-bind="attrs"
-    ) {{ extension.options.suggestion.char }}{{ node.attrs.id || node.attrs.label }}
+    ) {{ extension.options.renderText({ options: extension.options, node }) }}
 </template>
 
 <script>
