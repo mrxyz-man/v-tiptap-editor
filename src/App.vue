@@ -7,17 +7,17 @@
             v-tiptap-editor(
               v-model="tiptapVal1"
               :extensions="extensions"
+              balloon
               filled
               label="Filled"
             )
-            //- v-tiptap-editor(
-            //-   label="Solo"
-            //-   solo
-            //- )
-            //- v-tiptap-editor(
-            //-   label="Outlined"
-            //-   outlined
-            //- )
+            v-tiptap-editor(
+              :value="tiptapVal1"
+              :extensions="extensions"
+              label="Outlined"
+              outlined
+              balloon
+            )
             //- v-tiptap-editor(
             //-   label="Default"
             //- )

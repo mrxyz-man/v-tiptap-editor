@@ -56,7 +56,7 @@ export default {
         onShow: this.onShow,
 
         onClickOutside: () => {
-          this.editor.chain().focus().blur().run();
+          this.onHide();
         },
       },
     );
