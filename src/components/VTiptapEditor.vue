@@ -131,14 +131,16 @@ export default Vue.extend({
         this.internalValue = editor.getText() ? editor.getHTML() : '';
       },
       onCreate: ({ editor }) => {
-        editor.commands.createBubbleMenu({
-          key: 'toolbarBubbleMenu',
-          content: this.genFunctionalToolbar,
-          shouldShow: () => {
-            const { selection } = editor.state;
-            return !selection.empty && !selection?.node;
-          },
-        });
+        if (this.balloon) {
+          editor.commands.createBubbleMenu({
+            key: 'toolbarBubbleMenu',
+            content: this.genFunctionalToolbar,
+            shouldShow: () => {
+              const { selection } = editor.state;
+              return !selection.empty && !selection?.node;
+            },
+          });
+        }
       },
       $createElement: this.$createElement,
     });
