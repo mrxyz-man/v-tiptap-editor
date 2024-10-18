@@ -195,6 +195,15 @@ export default Vue.extend({
         }),
       ]);
     },
+    hideBubbleMenus() {
+      const { bubbleMenus } = this;
+      const menusList = Object.entries(bubbleMenus);
+
+      const newMenus = menusList.reduce((acc, [key, value]) => ({
+        ...acc, [key]: { ...value, state: false },
+      }), {});
+      this.editor.setOptions({ bubbleMenus: newMenus });
+    },
     genBubbleMenus() {
       const { editor, $createElement, bubbleMenus } = this;
       const menusList = Object.entries(bubbleMenus);
@@ -248,6 +257,7 @@ export default Vue.extend({
     onBlur(e) {
       this.isFocused = false;
       this.$refs.input.$el.blur();
+      this.hideBubbleMenus();
 
       if (e) this.$nextTick(() => this.$emit('blur', e));
     },

@@ -26,6 +26,7 @@ declare module 'vue' {
     VMenu: typeof import('vuetify/lib')['VMenu']
     VOverlay: typeof import('vuetify/lib')['VOverlay']
     VRow: typeof import('vuetify/lib')['VRow']
+    VSwitch: typeof import('vuetify/lib')['VSwitch']
     VTextField: typeof import('vuetify/lib')['VTextField']
     VTiptapEditor: typeof import('./src/components/VTiptapEditor.vue')['default']
     VTiptapNodeViewWrapper: typeof import('./src/components/VTiptapNodeViewWrapper.vue')['default']

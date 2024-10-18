@@ -4,26 +4,23 @@
       v-container
         v-row
           v-col(cols="12")
+            v-switch(
+              v-model="props.ballon"
+              label="ballon"
+            )
             v-tiptap-editor(
               v-model="tiptapVal1"
+              v-bind="props"
               :extensions="extensions"
-              balloon
               filled
               label="Filled"
             )
             v-tiptap-editor(
+              v-bind="props"
               :value="tiptapVal1"
+              label="Default"
               :extensions="extensions"
-              label="Outlined"
-              outlined
-              balloon
             )
-            //- v-tiptap-editor(
-            //-   label="Default"
-            //- )
-            //- v-tiptap-editor(
-            //-   label="Default"
-            //- )
             //- v-tiptap-editor(
             //-   label="Default"
             //- )
@@ -95,6 +92,9 @@ export default {
           },
         }),
       ],
+      props: {
+        balloon: true,
+      },
       // toolbar: {
       //   items: [
       //     {

@@ -55,9 +55,8 @@ export default {
         onHide: this.onHide,
         onShow: this.onShow,
 
-        onClickOutside: () => {
-          this.onHide();
-        },
+        // onClickOutside: () => {
+        // },
       },
     );
   },
