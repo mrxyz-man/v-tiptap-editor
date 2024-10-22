@@ -1,11 +1,11 @@
 <template lang="pug">
-    v-tiptap-node-view-wrapper(
-      v-bind="$props"
+  v-tiptap-node-view-wrapper(
+    v-bind="$props"
+  )
+    v-img.mb-2(
+      v-bind="node.attrs"
+      data-drag-handle
     )
-      v-img.mb-2(
-        v-bind="node.attrs"
-        data-drag-handle
-      )
 </template>
 
 <script>

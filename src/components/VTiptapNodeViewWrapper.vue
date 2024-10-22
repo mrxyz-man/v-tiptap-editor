@@ -6,7 +6,7 @@
     div.ghost(ref="ghost")
     v-hover(v-slot="{ hover }")
       div
-        div(v-if="isSelected || hover")
+        div(v-if="(isSelected && editor.isFocused) || hover")
           v-btn(
             fab
             top
@@ -14,7 +14,7 @@
             absolute
             depressed
             :color="getColor({ hover, isSelected })"
-            :dark="!(isSelected && !editor.isFocused)"
+            :dark="!(isSelected && editor.isFocused)"
             style="transform: translate(100%, 0);"
             @click="() => setParagraph(CONTENT_POSITIONS.before)"
           )
@@ -34,7 +34,7 @@
             absolute
             depressed
             :color="getColor({ hover, isSelected })"
-            :dark="!(isSelected && !editor.isFocused)"
+            :dark="!(isSelected && editor.isFocused)"
             style="transform: translate(-100%, 0);"
             @click="() => setParagraph(CONTENT_POSITIONS.after)"
           )
@@ -101,11 +101,10 @@ export default {
     getColor({ hover, isSelected }) {
       const { isFocused } = this.editor;
 
-      if (!isFocused && isSelected) return 'grey lighten-2';
-      if (isSelected) return 'primary';
+      if (isSelected && isFocused) return 'primary';
       if (hover) return 'yellow darken-2';
 
-      return undefined;
+      return '';
     },
     setParagraph(position) {
       const { getPos, node } = this;

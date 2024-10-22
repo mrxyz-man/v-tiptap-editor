@@ -15,3 +15,4 @@ export { default as Gapcursor } from './gapcursor';
 export { default as Image } from './image';
 export { default as TextAlign } from './text-align';
 export { default as Mention } from './mention';
+export { default as Indent } from './indent';

@@ -4,9 +4,10 @@ import VTextField from 'vuetify/lib/components/VTextField/VTextField';
 import VInput from 'vuetify/lib/components/VInput/VInput';
 import { attachedRoot } from 'vuetify/lib/util/dom';
 
-import { Editor, EditorContent } from '@tiptap/vue-2';
+import { Editor } from '@tiptap/vue-2';
 import {
   Text,
+  Indent,
   Document,
   Paragraph,
   Highlight,
@@ -23,6 +24,7 @@ import {
   btnToggle,
 } from '@/renders';
 
+import VTiptapEditorContent from './VTiptapEditorContent.vue';
 import VTiptapToolbar from './VTiptapToolbar.vue';
 import VTiptapTippy from './VTiptapTippy.vue';
 
@@ -30,6 +32,7 @@ import '@/assets/settings/index.scss';
 
 const REQUIRED_EXTENSIONS = [
   Text,
+  Indent,
   Document,
   Paragraph,
   HardBreak,
@@ -106,8 +109,8 @@ export default Vue.extend({
       includedClass: 'v-tiptap-editor--included',
 
       allExtensions: [
-        ...this.extensions,
         ...REQUIRED_EXTENSIONS,
+        ...this.extensions,
       ],
     };
   },
@@ -124,6 +127,7 @@ export default Vue.extend({
       bubbleMenus: {},
       extensions: this.allExtensions,
       content: this.value,
+      editable: !this.isDisabled,
       onFocus: ({ event: e }) => {
         this.onFocus(e);
       },
@@ -166,7 +170,7 @@ export default Vue.extend({
       if (isSame) return;
 
       this.lazyValue = val;
-      this.editor.commands.setContent(val, false);
+      this.editor.commands.setContent(val);
     },
   },
   methods: {
@@ -233,7 +237,7 @@ export default Vue.extend({
     },
     genInput() {
       const input = VTextField.options.methods.genInput.call(this);
-      return this.$createElement(EditorContent, {
+      return this.$createElement(VTiptapEditorContent, {
         ...input.data,
         class: 'v-tiptap__input',
         attrs: {

@@ -52,7 +52,10 @@ export default ImageNative.extend({
     editor.commands.createBubbleMenu({
       key: ImageBubbleMenuKey,
       content: () => imageToolbar,
-      shouldShow: () => editor.isActive('image'),
+      shouldShow: () => (
+        editor.isActive('image')
+        && editor.isFocused
+      ),
     });
   },
 

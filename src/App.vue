@@ -12,12 +12,12 @@
               v-model="tiptapVal1"
               v-bind="props"
               :extensions="extensions"
-              filled
               label="Filled"
+              filled
             )
             v-tiptap-editor(
+              v-model="tiptapVal1"
               v-bind="props"
-              :value="tiptapVal1"
               label="Default"
               :extensions="extensions"
             )
