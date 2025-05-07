@@ -11,7 +11,6 @@ export default TextAlignNative.extend({
       items: [
         ...[...this.parent?.()?.alignments || []].map((pos) => ({
           id: `text-align-${pos}`,
-          icon: `mdi-format-align-${pos}`,
 
           get value() {
             return [{ textAlign: pos }];

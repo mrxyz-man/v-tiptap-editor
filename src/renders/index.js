@@ -30,7 +30,7 @@ export const btn = ({
     props: {
       small: true,
     },
-  }, [item.icon]),
+  }, [editor.options.iconPack[item.aliasIcon || item.id]]),
 ]);
 
 export const btnToggle = ({

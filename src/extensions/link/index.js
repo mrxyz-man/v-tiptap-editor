@@ -7,11 +7,22 @@ const BubbleMenuKey = 'link';
 
 export default LinkNative.extend({
   onCreate({ editor }) {
+    const {
+      check,
+      close,
+      linkOff,
+      linkEdit,
+    } = editor.options.iconPack;
+
     const linkToolbar = editor.options.$createElement(LinkToolbar, {
       props: {
         editor,
         nodeName: this.name,
         attrKey: 'href',
+        saveIcon: check,
+        closeIcon: close,
+        editIcon: linkEdit,
+        resetIcon: linkOff,
       },
       on: {
         'link:close': () => {
@@ -54,7 +65,6 @@ export default LinkNative.extend({
 
       item: {
         id: 'link',
-        icon: 'mdi-link-variant',
         name: 'Ссылка',
         command: 'toggleLink',
 

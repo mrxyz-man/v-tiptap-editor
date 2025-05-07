@@ -5,14 +5,12 @@ export default HistoryNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      icon: 'mdi-history',
 
       groupSerializer: (ext) => ext.options.items,
 
       items: [
         {
           id: 'undo',
-          icon: 'mdi-undo',
           command: 'undo',
 
           get value() {
@@ -45,7 +43,6 @@ export default HistoryNative.extend({
         },
         {
           id: 'redo',
-          icon: 'mdi-redo',
           command: 'redo',
 
           get value() {

@@ -18,7 +18,7 @@
             style="transform: translate(100%, 0);"
             @click="() => setParagraph(CONTENT_POSITIONS.before)"
           )
-            v-icon mdi-keyboard-return
+            v-icon {{ keyboardReturnIcon }}
           v-overlay(
             :color="getColor({ hover, isSelected })"
             style="margin: -.2em; font-size: initial;"
@@ -38,7 +38,7 @@
             style="transform: translate(-100%, 0);"
             @click="() => setParagraph(CONTENT_POSITIONS.after)"
           )
-            v-icon mdi-keyboard-return
+            v-icon {{ keyboardReturnIcon }}
         slot
 </template>
 
@@ -88,6 +88,11 @@ export default {
 
       CONTENT_POSITIONS,
     };
+  },
+  computed: {
+    keyboardReturnIcon() {
+      return this.editor.options.iconPack.keyboardReturn;
+    },
   },
   watch: {
     selected: {

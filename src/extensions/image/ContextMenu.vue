@@ -47,11 +47,12 @@ export default {
       default: null,
     },
   },
-  data() {
-    return {
-      items: [
+  computed: {
+    items() {
+      const { urlLink, tray } = this.editor.options.iconPack;
+      return [
         {
-          icon: 'mdi-tray-arrow-up',
+          icon: tray,
           title: 'Загрузить из компьютера',
           props: {
             link: true,
@@ -59,7 +60,7 @@ export default {
           },
         },
         {
-          icon: 'mdi-link',
+          icon: urlLink,
           title: 'Загрузить по URL-ссылке',
           props: {
             link: true,
@@ -68,8 +69,8 @@ export default {
             click: () => this.$emit('click:add-link'),
           },
         },
-      ],
-    };
+      ];
+    },
   },
 };
 </script>

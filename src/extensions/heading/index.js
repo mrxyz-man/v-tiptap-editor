@@ -5,13 +5,11 @@ export default HeadingNative.extend({
   addOptions() {
     return {
       ...this.parent?.(),
-      icon: 'mdi-format-header-pound',
 
       items: [
         ...[...this.parent?.()?.levels || []].map((level) => ({
           id: `heading-${level}`,
           name: `Заголовок ${level}`,
-          icon: `mdi-format-header-${level}`,
           command: 'toggleHeading',
 
           get value() {

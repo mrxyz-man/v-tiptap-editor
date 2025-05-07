@@ -73,7 +73,7 @@ export default ImageNative.extend({
 
       item: {
         id: 'image',
-        icon: 'mdi-image-plus',
+        aliasIcon: 'imageAdd',
         command: 'setImage',
 
         get value() {
@@ -91,11 +91,13 @@ export default ImageNative.extend({
         },
 
         render({ $createElement, editor }) {
+          const { imageAdd } = editor.options.iconPack;
+
           return $createElement(ContextMenu, {
             props: {
               editor,
               iconOptions: {
-                content: 'mdi-image-plus',
+                content: imageAdd,
               },
             },
             on: {

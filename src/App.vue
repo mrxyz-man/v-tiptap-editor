@@ -5,7 +5,7 @@
         v-row
           v-col(cols="12")
             v-switch(
-              v-model="props.ballon"
+              v-model="props.balloon"
               label="ballon"
             )
             v-tiptap-editor(
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-// import { inline, btnToggle } from '@/renders';
+import { inline, btnToggle } from '@/renders';
 
 import {
   Bold,
@@ -65,11 +65,7 @@ export default {
     return {
       extensions: [
         History,
-        Bold.configure({
-          // item: {
-          //   icon: 'mdi-format-underline',
-          // },
-        }),
+        Bold,
         Underline,
         Italic,
         Heading,
@@ -95,19 +91,19 @@ export default {
       props: {
         balloon: true,
       },
-      // toolbar: {
-      //   items: [
-      //     {
-      //       exts: ['history'],
-      //       render: inline,
-      //     },
-      //     '|',
-      //     {
-      //       render: btnToggle,
-      //       exts: ['underline', 'bold', 'italic'],
-      //     },
-      //   ],
-      // },
+      toolbar: {
+        items: [
+          {
+            exts: ['history'],
+            render: inline,
+          },
+          '|',
+          {
+            render: btnToggle,
+            exts: ['underline', 'bold', 'italic'],
+          },
+        ],
+      },
       tiptapVal1: `
         <h3 class="text-h3" style="padding-top: .4em; margin-bottom: .4em"><strong>Render HTML</strong></h3><p style="padding-top: .2em; margin-bottom: .8em">With the <strong>renderHTML</strong> function you can control how an extension is rendered to HTML. We pass an attributes object to it, with all local attributes, global attributes, and configured CSS classes. Here is an example from the <strong>Bold</strong> extension:</p><p style="padding-top: .2em; margin-bottom: .8em">Mentions: <span color="primary" label="true" data-type="mention" data-id="1" data-label="Foo">#Foo</span> </p><img src="https://ckeditor.com/assets/images/ckdemo/editor-types/volcano_2x.jpg">
       `,

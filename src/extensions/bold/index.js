@@ -8,7 +8,6 @@ export default BoldNative.extend({
 
       item: {
         id: 'bold',
-        icon: 'mdi-format-bold',
         command: 'toggleBold',
 
         get value() {

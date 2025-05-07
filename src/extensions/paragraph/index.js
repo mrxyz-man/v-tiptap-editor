@@ -8,7 +8,6 @@ export default ParagraphNative.extend({
 
       item: {
         id: 'paragraph',
-        icon: 'mdi-format-paragraph',
         name: 'Обычный',
         command: 'setParagraph',
 

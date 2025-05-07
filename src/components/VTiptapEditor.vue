@@ -102,6 +102,10 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    iconPack: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data() {
     return {
@@ -126,6 +130,7 @@ export default Vue.extend({
       },
       bubbleMenus: {},
       extensions: this.allExtensions,
+      iconPack: this.extraIconPack,
       content: this.value,
       editable: !this.isDisabled,
       onFocus: ({ event: e }) => {
@@ -161,6 +166,42 @@ export default Vue.extend({
     },
     bubbleMenus() {
       return this.editor.options.bubbleMenus;
+    },
+    extraIconPack() {
+      const { iconPack } = this;
+      return {
+        check: 'mdi-check',
+        close: 'mdi-close',
+        linkEdit: 'mdi-link-edit',
+        linkOff: 'mdi-link-off',
+        link: 'mdi-link-variant',
+        urlLink: 'mdi-link',
+        bold: 'mdi-format-bold',
+        heading: 'mdi-format-header-pound',
+        'heading-1': 'mdi-format-header-1',
+        'heading-2': 'mdi-format-header-2',
+        'heading-3': 'mdi-format-header-3',
+        'heading-4': 'mdi-format-header-4',
+        'heading-5': 'mdi-format-header-5',
+        'heading-6': 'mdi-format-header-6',
+        history: 'mdi-history',
+        undo: 'mdi-undo',
+        redo: 'mdi-redo',
+        tray: 'mdi-tray-arrow-up',
+        image: 'mdi-image-size-select-actual',
+        trash: 'mdi-trash-can',
+        imageAdd: 'mdi-image-plus',
+        italic: 'mdi-format-italic',
+        paragraph: 'mdi-format-paragraph',
+        'text-align-left': 'mdi-format-align-left',
+        'text-align-center': 'mdi-format-align-center',
+        'text-align-right': 'mdi-format-align-right',
+        'text-align-justify': 'mdi-format-align-justify',
+        underline: 'mdi-format-underline',
+        keyboardReturn: 'mdi-keyboard-return',
+
+        ...iconPack,
+      };
     },
   },
   watch: {

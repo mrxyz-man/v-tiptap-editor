@@ -39,11 +39,17 @@ export default {
   },
   computed: {
     actionTypesData() {
+      const {
+        image,
+        trash,
+        linkEdit,
+      } = this.editor.options.iconPack;
+
       return {
         [ACTION_TYPES.contain]: {
           id: ACTION_TYPES.contain,
           name: 'contain',
-          icon: 'mdi-image-size-select-actual',
+          icon: image,
           component: VBtn,
           get component_attrs() {
             const { name } = this;
@@ -64,7 +70,7 @@ export default {
         [ACTION_TYPES.src]: {
           id: ACTION_TYPES.src,
           name: 'src',
-          icon: 'mdi-link-edit',
+          icon: linkEdit,
           component: VBtn,
           get component_attrs() {
             const { name } = this;
@@ -90,7 +96,7 @@ export default {
         [ACTION_TYPES.remove]: {
           id: ACTION_TYPES.remove,
           name: 'remove',
-          icon: 'mdi-trash-can',
+          icon: trash,
           component: VBtn,
           get component_attrs() {
             const { name } = this;

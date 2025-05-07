@@ -8,7 +8,6 @@ export default UnderlineNative.extend({
 
       item: {
         id: 'underline',
-        icon: 'mdi-format-underline',
         command: 'toggleUnderline',
 
         get value() {

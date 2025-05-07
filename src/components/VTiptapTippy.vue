@@ -111,6 +111,7 @@ export default {
           focusin: () => {
             this.editor
               .chain()
+              .setMeta('preventUpdate', true)
               .setMeta('addToHistory', false)
               .toggleHighlight()
               .run();
@@ -119,6 +120,7 @@ export default {
             if (this.editor.isActive('highlight')) {
               this.editor
                 .chain()
+                .setMeta('preventUpdate', true)
                 .setMeta('addToHistory', false)
                 .unsetHighlight()
                 .run();

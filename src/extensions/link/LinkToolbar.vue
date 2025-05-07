@@ -2,10 +2,8 @@
   v-tiptap-toolbar(:editor="editor")
     add-link(
       v-model="url"
-      :editable.sync="editable"
-      @close="onCloseLink"
-      @save="onSaveLink"
-      @reset="onResetLink"
+      v-bind="extendAttrs"
+      v-on="extendListeners"
     )
 </template>
 
@@ -31,6 +29,22 @@ export default {
       type: String,
       required: true,
     },
+    saveIcon: {
+      type: String,
+      required: true,
+    },
+    closeIcon: {
+      type: String,
+      required: true,
+    },
+    editIcon: {
+      type: String,
+      required: true,
+    },
+    resetIcon: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -38,6 +52,30 @@ export default {
       editable: this.editor.isActive(this.nodeName) || false,
       url: this.editor.getAttributes(this.nodeName)[this.attrKey] || this.initialURL,
     };
+  },
+  computed: {
+    extendAttrs() {
+      const { editable, $props } = this;
+      return {
+        ...$props,
+        editable,
+      };
+    },
+    extendListeners() {
+      const {
+        onCloseLink,
+        onSaveLink,
+        onResetLink,
+        onUpdateEditable,
+      } = this;
+
+      return {
+        close: onCloseLink,
+        save: onSaveLink,
+        reset: onResetLink,
+        'update:editable': onUpdateEditable,
+      };
+    },
   },
   methods: {
     onSaveLink() {
@@ -55,6 +93,9 @@ export default {
     onResetLink() {
       this.url = this.initialURL;
       this.$emit('link:reset', this.url);
+    },
+    onUpdateEditable(val) {
+      this.editable = val;
     },
   },
 };

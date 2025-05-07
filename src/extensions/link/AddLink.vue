@@ -14,11 +14,11 @@
               target="_blank"
             ) {{ attrs.value }}
         v-list-item-action-text
-          v-icon.ml-2(@click="toggleEdit") mdi-link-edit
+          v-icon.ml-2(@click="toggleEdit") {{ editIcon }}
           v-icon.ml-2(
             @click="$emit('reset')"
             @blur="blur"
-          ) mdi-link-off
+          ) {{ resetIcon }}
 
     div(
       v-else
@@ -35,12 +35,12 @@
             :disabled="!attrs.value"
             color="success"
             @click="$emit('save')"
-          ) mdi-check
+          ) {{ saveIcon }}
           v-icon.ml-2(
             color="error"
             @click="$emit('close')"
             @blur="blur"
-          ) mdi-close
+          ) {{ closeIcon }}
 </template>
 
 <script>
@@ -78,6 +78,22 @@ export default {
     editable: {
       type: Boolean,
       default: false,
+    },
+    saveIcon: {
+      type: String,
+      required: true,
+    },
+    closeIcon: {
+      type: String,
+      required: true,
+    },
+    editIcon: {
+      type: String,
+      required: true,
+    },
+    resetIcon: {
+      type: String,
+      required: true,
     },
   },
   data() {

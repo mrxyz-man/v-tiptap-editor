@@ -8,7 +8,6 @@ export default ItalicNative.extend({
 
       item: {
         id: 'italic',
-        icon: 'mdi-format-italic',
         command: 'toggleItalic',
 
         get value() {
