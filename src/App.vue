@@ -54,6 +54,11 @@ import {
   Image,
   TextAlign,
   Mention,
+  ListItem,
+  OrderedList,
+  BulletList,
+  TaskItem,
+  TaskList,
 } from '@/extensions';
 import VTiptapEditor from './components/VTiptapEditor.vue';
 
@@ -87,6 +92,11 @@ export default {
             char: '#',
           },
         }),
+        ListItem,
+        OrderedList,
+        BulletList,
+        TaskItem,
+        TaskList,
       ],
       props: {
         balloon: true,

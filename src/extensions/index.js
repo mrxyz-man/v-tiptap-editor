@@ -16,3 +16,8 @@ export { default as Image } from './image';
 export { default as TextAlign } from './text-align';
 export { default as Mention } from './mention';
 export { default as Indent } from './indent';
+export { default as ListItem } from './list-item';
+export { default as BulletList } from './bullet-list';
+export { default as OrderedList } from './ordered-list';
+export { default as TaskItem } from './task-item';
+export { default as TaskList } from './task-list';

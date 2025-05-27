@@ -72,6 +72,11 @@ const DEFAULT_TOOLBAR_CONFIG = {
       exts: ['textAlign'],
       render: btnToggle,
     },
+    '|',
+    {
+      exts: ['bulletList', 'orderedList', 'taskList'],
+      render: btnToggle,
+    },
   ],
 };
 
@@ -199,6 +204,9 @@ export default Vue.extend({
         'text-align-justify': 'mdi-format-align-justify',
         underline: 'mdi-format-underline',
         keyboardReturn: 'mdi-keyboard-return',
+        bulletList: 'mdi-format-list-bulleted',
+        orderedList: 'mdi-format-list-numbered',
+        taskList: 'mdi-format-list-checkbox',
 
         ...iconPack,
       };
