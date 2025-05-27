@@ -28,7 +28,7 @@ export const btn = ({
 }, [
   $createElement(VIcon, {
     props: {
-      small: true,
+      dense: true,
     },
   }, [editor.options.iconPack[item.aliasIcon || item.id]]),
 ]);
