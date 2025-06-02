@@ -1,4 +1,4 @@
-import { TaskList as TaskListNative } from '@tiptap/extension-Task-list';
+import { TaskList as TaskListNative } from '@tiptap/extension-task-list';
 import { btn } from '@/renders';
 
 export default TaskListNative.extend({
