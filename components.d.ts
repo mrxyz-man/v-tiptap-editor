@@ -7,13 +7,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    VApp: typeof import('vuetify/lib')['VApp']
     VBtn: typeof import('vuetify/lib')['VBtn']
     VBtnToggle: typeof import('vuetify/lib')['VBtnToggle']
     VCard: typeof import('vuetify/lib')['VCard']
     VChip: typeof import('vuetify/lib')['VChip']
-    VCol: typeof import('vuetify/lib')['VCol']
-    VContainer: typeof import('vuetify/lib')['VContainer']
     VHover: typeof import('vuetify/lib')['VHover']
     VIcon: typeof import('vuetify/lib')['VIcon']
     VImg: typeof import('vuetify/lib')['VImg']
@@ -23,11 +20,8 @@ declare module 'vue' {
     VListItemActionText: typeof import('vuetify/lib')['VListItemActionText']
     VListItemContent: typeof import('vuetify/lib')['VListItemContent']
     VListItemTitle: typeof import('vuetify/lib')['VListItemTitle']
-    VMain: typeof import('vuetify/lib')['VMain']
     VMenu: typeof import('vuetify/lib')['VMenu']
     VOverlay: typeof import('vuetify/lib')['VOverlay']
-    VRow: typeof import('vuetify/lib')['VRow']
-    VSwitch: typeof import('vuetify/lib')['VSwitch']
     VTextField: typeof import('vuetify/lib')['VTextField']
     VTiptapEditor: typeof import('./src/components/VTiptapEditor.vue')['default']
     VTiptapEditorContent: typeof import('./src/components/VTiptapEditorContent.vue')['default']
