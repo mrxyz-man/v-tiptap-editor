@@ -4,10 +4,15 @@
       v-container
         v-row
           v-col(cols="12")
-            v-switch(
-              v-model="props.balloon"
-              label="ballon"
-            )
+            .d-flex
+              v-switch(
+                v-model="props.balloon"
+                label="ballon"
+              )
+              v-switch.ml-3(
+                v-model="props.readonly"
+                label="readonly"
+              )
             v-tiptap-editor(
               v-model="tiptapVal1"
               v-bind="props"
@@ -100,6 +105,7 @@ export default {
       ],
       props: {
         balloon: true,
+        readonly: false,
       },
       toolbar: {
         items: [

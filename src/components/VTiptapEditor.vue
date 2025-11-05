@@ -89,7 +89,7 @@ TODO LIST:
 // [*] - Add functional toolbar configuration support;
 [ ] - Add functional tooltip by selection;
 // [*] - Test all text-field functionality with new shell;
-[ ] - Add support save default styles by props (enabled/disabled);
+// [*] - Add support save default styles by props (enabled/disabled);
 */
 export default Vue.extend({
   name: 'VTiptapEditor',
@@ -132,12 +132,14 @@ export default Vue.extend({
         attributes: {
           style: 'width: inherit; outline: none; height: 100%;',
         },
+        handleKeyDown: this.handleEditorKeyDown,
       },
       bubbleMenus: {},
       extensions: this.allExtensions,
       iconPack: this.extraIconPack,
       content: this.value,
       editable: !this.isDisabled,
+      readonly: this.isReadonly,
       onFocus: ({ event: e }) => {
         this.onFocus(e);
       },
@@ -221,8 +223,23 @@ export default Vue.extend({
       this.lazyValue = val;
       this.editor.commands.setContent(val);
     },
+    isReadonly(val) {
+      this.editor.setOptions({
+        readonly: val,
+      });
+    },
   },
   methods: {
+    handleEditorKeyDown(view, event) {
+      const { isReadonly } = this;
+
+      if (isReadonly) {
+        event.preventDefault();
+        event.stopPropagation();
+        return true;
+      }
+      return false;
+    },
     genFunctionalToolbar() {
       const {
         editor,

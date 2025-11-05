@@ -12,6 +12,7 @@
           tabindex="-1"
           height="auto"
           min-width="auto"
+          :disabled="editor.options.readonly"
           v-bind="attrs"
           v-on="on"
         )

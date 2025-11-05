@@ -96,7 +96,10 @@ export default LinkNative.extend({
                 height: 'auto',
                 minWidth: 'auto',
                 inputValue: editor.isActive('link'),
-                disabled: editor.state.selection.empty,
+                disabled: (
+                  editor.state.selection.empty
+                  || editor.options.readonly
+                ),
               },
               on: {
                 click: () => {

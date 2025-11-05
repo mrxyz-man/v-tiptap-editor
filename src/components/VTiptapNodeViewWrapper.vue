@@ -8,6 +8,7 @@
       div
         div(v-if="(isSelected && editor.isFocused) || hover")
           v-btn(
+            v-if="!editor.options.readonly"
             fab
             top
             x-small
@@ -27,6 +28,7 @@
             absolute
           )
           v-btn(
+            v-if="!editor.options.readonly"
             fab
             right
             x-small

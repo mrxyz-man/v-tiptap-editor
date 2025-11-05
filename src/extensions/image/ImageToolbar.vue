@@ -103,6 +103,7 @@ export default {
 
             return {
               text: true,
+              disabled: this.editor.options.readonly,
               get value() {
                 return name;
               },
